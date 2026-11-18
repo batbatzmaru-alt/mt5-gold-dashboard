@@ -1,14 +1,30 @@
+from flask import Flask, render_template, request, jsonify
+
+# 1. ต้องประกาศสร้าง app ตรงนี้เป็นอันดับแรกสุด!
+app = Flask(__name__)
+
 # --- ตัวแปรตั้งค่าระบบและความปลอดภัย ---
 system_config = {
-    "pin": "000013"  # รหัส PIN เริ่มต้น (สามารถเปลี่ยนผ่านหน้าเว็บได้)
+    "pin": "000013"  # รหัส PIN เริ่มต้น
 }
 
 ea_control_states = {
     "emergency_stop_all": False,
-    "accounts": {}  # เก็บสถานะแต่ละพอร์ต เช่น { "12345678": "RUNNING" หรือ "STOPPED" }
+    "accounts": {}  # เก็บสถานะแต่ละพอร์ต เช่น { "12345678": "RUNNING" }
 }
 
-# 1. API สำหรับสลับสถานะ EA (เปิด/ปิด) แยกตามพอร์ต
+# --- ตัวอย่าง Endpoints หลักของ Dashboard (ถ้ามีอยู่แล้วสามารถรวมกันได้) ---
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+# (หากมีฟังก์ชันรับข้อมูล /api/data เดิม ก็นำมาวางไว้แถวนี้ได้ครับ)
+
+
+# ==========================================
+# API ระบบควบคุม EA ฉุกเฉิน & เปลี่ยน PIN
+# ==========================================
+
 @app.route('/api/ea/toggle/<account_id>', methods=['POST'])
 def toggle_ea(account_id):
     data = request.get_json() or {}
@@ -31,7 +47,6 @@ def toggle_ea(account_id):
         "message": f"เปลี่ยนสถานะ EA พอร์ต {account_id} เป็น {new_status} เรียบร้อยแล้ว"
     })
 
-# 2. API สำหรับสั่งปิด EA ทุกพอร์ตฉุกเฉินพร้อมกัน
 @app.route('/api/ea/stop_all', methods=['POST'])
 def stop_all_ea():
     data = request.get_json() or {}
@@ -49,7 +64,6 @@ def stop_all_ea():
         "message": "🚨 ส่งสัญญาณปิดฉุกเฉิน (Emergency Stop) ทุกพอร์ตเรียบร้อยแล้ว!"
     })
 
-# 3. API สำหรับเปลี่ยนรหัส PIN ผ่านหน้าเว็บ
 @app.route('/api/ea/change_pin', methods=['POST'])
 def change_pin():
     data = request.get_json() or {}
@@ -65,7 +79,6 @@ def change_pin():
     system_config["pin"] = new_pin
     return jsonify({"status": "success", "message": "✅ เปลี่ยนรหัส PIN สำเร็จแล้ว!"})
 
-# 4. API ให้ EA ใน MT5 วิ่งเข้ามาเช็คสถานะทุกรอบ
 @app.route('/api/ea/status/<account_id>', methods=['GET'])
 def get_ea_status(account_id):
     if ea_control_states["emergency_stop_all"]:
@@ -75,3 +88,7 @@ def get_ea_status(account_id):
         ea_control_states["accounts"][account_id] = "RUNNING"
         
     return jsonify({"state": ea_control_states["accounts"][account_id]})
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
