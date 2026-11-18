@@ -29,22 +29,22 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 16px;
+            padding: 12px;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo h1 {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             color: #fbbf24;
         }
@@ -52,7 +52,7 @@
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
@@ -60,9 +60,9 @@
             background: var(--card-bg);
             color: var(--text-main);
             border: 1px solid var(--border-color);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 12px;
             outline: none;
             cursor: pointer;
         }
@@ -70,18 +70,18 @@
         .status-badge {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             background: rgba(16, 185, 129, 0.1);
             color: var(--profit-color);
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
         }
 
         .pulse {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background-color: var(--profit-color);
             border-radius: 50%;
             animation: pulse 1.5s infinite;
@@ -89,33 +89,39 @@
 
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+            70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         .stat-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 14px;
+            padding: 12px;
         }
 
         .stat-card h3 {
             font-size: 11px;
             color: var(--text-muted);
             font-weight: 400;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .stat-card .value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -123,21 +129,21 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
         }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             flex-wrap: wrap;
             gap: 8px;
         }
 
         .card-header h2 {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
         }
 
@@ -151,39 +157,51 @@
             text-align: center;
             font-weight: 600;
             color: var(--text-muted);
-            padding: 6px;
-            font-size: 11px;
+            padding: 4px;
+            font-size: 10px;
         }
 
         .day-cell {
             background-color: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             border-radius: 6px;
-            min-height: 75px;
-            padding: 6px;
+            min-height: 65px;
+            padding: 5px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .day-cell:hover {
+            border-color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.08);
+        }
+
+        .day-cell.selected {
+            border: 2px solid var(--primary);
+            background-color: rgba(99, 102, 241, 0.15);
         }
 
         .day-cell.empty {
             background-color: transparent;
             border: none;
+            cursor: default;
         }
 
         .day-cell.today {
-            border: 2px solid var(--primary);
-            background-color: rgba(99, 102, 241, 0.08);
+            border: 1px dashed var(--primary);
         }
 
         .day-number {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 500;
             color: var(--text-muted);
         }
 
         .day-profit {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-align: right;
         }
@@ -193,36 +211,35 @@
         .profit-zero { color: var(--text-muted); }
 
         .live-tag {
-            font-size: 8px;
+            font-size: 7px;
             background: var(--primary);
             color: white;
-            padding: 1px 4px;
+            padding: 1px 3px;
             border-radius: 3px;
             align-self: flex-start;
-            margin-top: 2px;
         }
 
         .nav-btn {
-            padding: 4px 10px;
+            padding: 4px 8px;
             background: var(--border-color);
             border: none;
             color: white;
             border-radius: 6px;
             cursor: pointer;
             font-family: 'Prompt', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
         }
         .nav-btn:hover { background: var(--primary); }
 
-        /* สไตล์ตารางประวัติออเดอร์ */
+        /* ตารางประวัติสำหรับมือถือ */
         .trade-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 12px;
+            font-size: 11px;
             text-align: left;
         }
         .trade-table th, .trade-table td {
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-bottom: 1px solid var(--border-color);
         }
         .trade-table th {
@@ -230,8 +247,22 @@
             font-weight: 500;
             background-color: rgba(255, 255, 255, 0.01);
         }
-        .trade-table tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        .filter-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .reset-filter-btn {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--loss-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
         }
     </style>
 </head>
@@ -239,7 +270,7 @@
 
     <header>
         <div class="logo">
-            <h1>🥇 XM MT5 Gold Dashboard</h1>
+            <h1>🥇 XM MT5 Dashboard</h1>
         </div>
         <div class="header-controls">
             <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
@@ -275,14 +306,14 @@
         <div class="card-header">
             <h2>📈 กราฟความเติบโต (Balance Curve)</h2>
         </div>
-        <div style="position: relative; height: 220px; width: 100%;">
+        <div style="position: relative; height: 200px; width: 100%;">
             <canvas id="growthChart"></canvas>
         </div>
     </div>
 
     <div class="card-container">
         <div class="card-header">
-            <h2 id="calendar-month-year" style="font-size:14px;">ปฏิทินผลการเทรดรายวัน</h2>
+            <h2 id="calendar-month-year" style="font-size:13px;">ปฏิทินผลการเทรดรายวัน</h2>
             <div>
                 <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
                 <button class="nav-btn" onclick="changeMonth(1)" style="margin-left:4px;">&gt;</button>
@@ -300,10 +331,13 @@
         </div>
     </div>
 
-    <!-- ตารางแสดงประวัติออเดอร์ที่เพิ่งปิดล่าสุด -->
     <div class="card-container">
         <div class="card-header">
-            <h2>📜 ประวัติออเดอร์ที่เพิ่งปิดล่าสุด (10 รายการล่าสุด)</h2>
+            <h2>📜 ประวัติออเดอร์</h2>
+        </div>
+        <div id="filter-status-container" class="filter-info" style="display: none;">
+            <span id="filter-text">แสดงผลเฉพาะวันที่: -</span>
+            <button class="reset-filter-btn" onclick="resetDateFilter()">แสดงทั้งหมด</button>
         </div>
         <div style="overflow-x: auto;">
             <table class="trade-table">
@@ -330,6 +364,7 @@
         let currentMonth = currentDate.getMonth();
         let globalData = null;
         let selectedAccount = 'combined';
+        let selectedDateFilter = null; // เก็บวันที่ที่กำลังคลิกดูย้อนหลัง (รูปแบบ YYYY.MM.DD)
         let growthChart = null;
 
         const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
@@ -363,6 +398,17 @@
 
         function switchAccount(val) {
             selectedAccount = val;
+            selectedDateFilter = null; // รีเซ็ตตัวกรองวันเมื่อเปลี่ยนพอร์ต
+            renderDashboard();
+        }
+
+        function filterByDate(dateKey) {
+            selectedDateFilter = (selectedDateFilter === dateKey) ? null : dateKey; // กดซ้ำเพื่อยกเลิก
+            renderDashboard();
+        }
+
+        function resetDateFilter() {
+            selectedDateFilter = null;
             renderDashboard();
         }
 
@@ -379,25 +425,39 @@
             floatingEl.className = `value ${floatingVal >= 0 ? 'profit-pos' : 'profit-neg'}`;
 
             buildCalendar(targetData.deals || []);
-            buildChart(targetData.deals || [], targetData.balance);
             buildRecentTrades(targetData.deals || []);
         }
 
         function buildRecentTrades(deals) {
             const tbody = document.getElementById('recent-trades-tbody');
-            if (!deals || deals.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">ยังไม่มีประวัติการเทรด</td></tr>`;
+            const filterContainer = document.getElementById('filter-status-container');
+            const filterText = document.getElementById('filter-text');
+
+            let filteredDeals = deals;
+            
+            if (selectedDateFilter) {
+                // กรองเฉพาะดีลที่ตรงกับวันที่คลิก (selectedDateFilter คือรูปแบบ YYYY.MM.DD)
+                filteredDeals = deals.filter(d => d.date === selectedDateFilter);
+                filterContainer.style.display = 'flex';
+                let parts = selectedDateFilter.split('.');
+                filterText.innerText = `แสดงผลเฉพาะวันที่: ${parts[2]}/${parts[1]}/${parseInt(parts[0])+543}`;
+            } else {
+                filterContainer.style.display = 'none';
+            }
+
+            if (!filteredDeals || filteredDeals.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 15px;">ไม่มีประวัติการเทรดในเงื่อนไขนี้</td></tr>`;
                 return;
             }
 
-            // เรียงลำดับจากใหม่ไปเก่าตามเวลาปิด (time)
-            let sortedDeals = [...deals].sort((a, b) => b.time - a.time);
-            let latestDeals = sortedDeals.slice(0, 10); // เอา 10 รายการล่าสุด
+            // เรียงลำดับจากใหม่ไปเก่าตามเวลาปิด
+            let sortedDeals = [...filteredDeals].sort((a, b) => b.time - a.time);
+            let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 10); // ถ้าไม่ได้เลือกวัน แสดง 10 รายการล่าสุด
 
             let html = '';
-            latestDeals.forEach(deal => {
+            displayDeals.forEach(deal => {
                 let dateObj = new Date(deal.time * 1000);
-                let timeStr = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
+                let timeStr = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
                 
                 let profitClass = deal.profit >= 0 ? 'profit-pos' : 'profit-neg';
                 let profitFormatted = `${deal.profit >= 0 ? '+' : ''}$${deal.profit.toFixed(2)}`;
@@ -415,61 +475,6 @@
                 `;
             });
             tbody.innerHTML = html;
-        }
-
-        function buildChart(deals, currentBalance) {
-            const ctx = document.getElementById('growthChart').getContext('2d');
-            let sortedDeals = [...deals].sort((a, b) => a.time - b.time);
-            let totalProfit = sortedDeals.reduce((sum, d) => sum + d.profit, 0);
-            let runningBalance = currentBalance - totalProfit;
-            
-            let labels = ['เริ่มต้น'];
-            let balanceData = [runningBalance];
-
-            sortedDeals.forEach(deal => {
-                runningBalance += deal.profit;
-                let dateObj = new Date(deal.time * 1000);
-                let dateStr = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()].substring(0,3)} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
-                labels.push(dateStr);
-                balanceData.push(runningBalance);
-            });
-
-            if (sortedDeals.length === 0) {
-                labels.push('ปัจจุบัน');
-                balanceData.push(currentBalance);
-            }
-
-            if (growthChart) {
-                growthChart.data.labels = labels;
-                growthChart.data.datasets[0].data = balanceData;
-                growthChart.update();
-            } else {
-                growthChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Balance ($)',
-                            data: balanceData,
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                            borderWidth: 2,
-                            fill: true,
-                            tension: 0.2,
-                            pointRadius: 2,
-                            pointBackgroundColor: '#6366f1'
-                        }]
-                    },
-                    options: {
-                        responsive: true, maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 10 } } },
-                            y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 10 } } }
-                        }
-                    }
-                });
-            }
         }
 
         function buildCalendar(deals) {
@@ -512,11 +517,13 @@
                 let profit = dailyProfits[dateKey] || 0;
                 let profitClass = profit > 0 ? 'profit-pos' : (profit < 0 ? 'profit-neg' : 'profit-zero');
                 let isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
-                let todayClass = isToday ? 'today' : '';
+                let isSelected = (selectedDateFilter === dateKey);
+                
+                let cellClass = `day-cell ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}`;
                 let profitFormatted = profit !== 0 ? `${profit > 0 ? '+' : ''}$${profit.toFixed(2)}` : '-';
 
                 html += `
-                    <div class="day-cell ${todayClass}">
+                    <div class="${cellClass}" onclick="filterByDate('${dateKey}')">
                         <div style="display:flex; justify-content:space-between; width:100%;">
                             <span class="day-number">${day}</span>
                             ${isToday ? '<span class="live-tag">LIVE</span>' : ''}
