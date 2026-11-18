@@ -2,14 +2,14 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# --- ตัวแปรตั้งค่าความปลอดภัยและความจำข้อมูลพอร์ต ---
+# --- ตัวแปรตั้งค่าความปลอดภัยและความจำข้อมูลระบบ ---
 system_config = {
-    "pin": "000013"
+    "pin": "000013"  # รหัส PIN เริ่มต้น 6 หลัก (สามารถเปลี่ยนผ่านหน้าเว็บได้)
 }
 
 ea_control_states = {
     "emergency_stop_all": False,
-    "accounts": {}
+    "accounts": {}  # เก็บสถานะแต่ละพอร์ต เช่น { "12345678": "RUNNING" หรือ "STOPPED" }
 }
 
 # ตัวแปรเก็บข้อมูลพอร์ตจาก MT5 สำหรับแสดงผลบนหน้า Dashboard
@@ -61,12 +61,14 @@ def update_data():
     
     return jsonify({"status": "success"})
 
-# 3. API ส่งข้อมูลให้หน้าเว็บ Dashboard ดึงไปแสดงผล
+# 3. API ส่งข้อมูลให้หน้าเว็บ Dashboard ดึงไปแสดงผล (รวมสถานะ EA สำหรับแสดงไฟเขียว/แดง)
 @app.route('/api/data', methods=['GET'])
 def get_data():
-    return jsonify(global_data)
+    response_data = global_data.copy()
+    response_data["ea_control"] = ea_control_states
+    return jsonify(response_data)
 
-# 4. API ควบคุม EA (เปิด/ปิดพอร์ต)
+# 4. API สลับสถานะ EA แยกตามพอร์ต (เปิด/ปิด) พร้อมตรวจสอบ PIN
 @app.route('/api/ea/toggle/<account_id>', methods=['POST'])
 def toggle_ea(account_id):
     data = request.get_json() or {}
@@ -89,7 +91,7 @@ def toggle_ea(account_id):
         "message": f"เปลี่ยนสถานะ EA พอร์ต {account_id} เป็น {new_status} เรียบร้อยแล้ว"
     })
 
-# 5. API ปิด EA ทุกพอร์ตฉุกเฉิน
+# 5. API สั่งปิด EA ทุกพอร์ตฉุกเฉิน พร้อมตรวจสอบ PIN
 @app.route('/api/ea/stop_all', methods=['POST'])
 def stop_all_ea():
     data = request.get_json() or {}
@@ -107,7 +109,7 @@ def stop_all_ea():
         "message": "🚨 ส่งสัญญาณปิดฉุกเฉินทุกพอร์ตเรียบร้อยแล้ว!"
     })
 
-# 6. API เปลี่ยนรหัส PIN
+# 6. API เปลี่ยนรหัส PIN ผ่านหน้าเว็บ
 @app.route('/api/ea/change_pin', methods=['POST'])
 def change_pin():
     data = request.get_json() or {}
@@ -123,7 +125,7 @@ def change_pin():
     system_config["pin"] = new_pin
     return jsonify({"status": "success", "message": "✅ เปลี่ยนรหัส PIN สำเร็จแล้ว!"})
 
-# 7. API ให้ EA ใน MT5 เช็คสถานะ
+# 7. API ให้ EA ใน MT5 วิ่งเข้ามาเช็คสถานะทุกรอบ
 @app.route('/api/ea/status/<account_id>', methods=['GET'])
 def get_ea_status(account_id):
     if ea_control_states["emergency_stop_all"]:
