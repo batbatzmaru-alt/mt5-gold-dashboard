@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # --- ตัวแปรตั้งค่าความปลอดภัยและความจำข้อมูลระบบ ---
 system_config = {
-    "pin": "000013"  # รหัส PIN เริ่มต้น 6 หลัก (สามารถเปลี่ยนผ่านหน้าเว็บได้)
+    "pin": "000013"  # รหัส PIN เริ่มต้น 6 หลัก
 }
 
 ea_control_states = {
@@ -61,14 +61,14 @@ def update_data():
     
     return jsonify({"status": "success"})
 
-# 3. API ส่งข้อมูลให้หน้าเว็บ Dashboard ดึงไปแสดงผล (รวมสถานะ EA สำหรับแสดงไฟเขียว/แดง)
+# 3. API ส่งข้อมูลให้หน้าเว็บ Dashboard ดึงไปแสดงผล
 @app.route('/api/data', methods=['GET'])
 def get_data():
     response_data = global_data.copy()
     response_data["ea_control"] = ea_control_states
     return jsonify(response_data)
 
-# 4. API สลับสถานะ EA แยกตามพอร์ต (เปิด/ปิด) พร้อมตรวจสอบ PIN
+# 4. API สลับสถานะ EA แยกตามพอร์ต (แก้ไขให้ปลดล็อก emergency_stop_all อัตโนมัติ)
 @app.route('/api/ea/toggle/<account_id>', methods=['POST'])
 def toggle_ea(account_id):
     data = request.get_json() or {}
@@ -76,6 +76,10 @@ def toggle_ea(account_id):
     
     if pin != system_config["pin"]:
         return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
+
+    # หากเคยถูกล็อกด้วยปุ่ม "ปิดทั้งหมด" ให้ปลดล็อกออกเมื่อมีการกดใช้งานรายพอร์ต
+    if ea_control_states["emergency_stop_all"]:
+        ea_control_states["emergency_stop_all"] = False
 
     if account_id not in ea_control_states["accounts"]:
         ea_control_states["accounts"][account_id] = "RUNNING"
