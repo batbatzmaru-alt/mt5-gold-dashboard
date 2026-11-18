@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XM MT5 Gold Trading Dashboard</title>
+    <!-- โหลดฟอนต์ Prompt รองรับภาษาไทย 100% -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --border-color: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --profit-color: #10b981;
+            --loss-color: #ef4444;
+            --primary: #6366f1;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fbbf24;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .account-selector {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--profit-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .pulse {
+            width: 7px;
+            height: 7px;
+            background-color: var(--profit-color);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .stat-card h3 {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 400;
+            margin-bottom: 6px;
+        }
+
+        .stat-card .value {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .card-header h2 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+
+        .day-name {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 6px;
+            font-size: 11px;
+        }
+
+        .day-cell {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            min-height: 75px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .day-cell.empty {
+            background-color: transparent;
+            border: none;
+        }
+
+        .day-cell.today {
+            border: 2px solid var(--primary);
+            background-color: rgba(99, 102, 241, 0.08);
+        }
+
+        .day-number {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .day-profit {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .profit-pos { color: var(--profit-color); }
+        .profit-neg { color: var(--loss-color); }
+        .profit-zero { color: var(--text-muted); }
+
+        .live-tag {
+            font-size: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 1px 4px;
+            border-radius: 3px;
+            align-self: flex-start;
+            margin-top: 2px;
+        }
+
+        .nav-btn {
+            padding: 4px 10px;
+            background: var(--border-color);
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Prompt', sans-serif;
+            font-size: 12px;
+        }
+        .nav-btn:hover { background: var(--primary); }
+
+        /* สไตล์ตารางประวัติออเดอร์ */
+        .trade-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: left;
+        }
+        .trade-table th, .trade-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .trade-table th {
+            color: var(--text-muted);
+            font-weight: 500;
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+        .trade-table tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>🥇 XM MT5 Gold Dashboard</h1>
+        </div>
+        <div class="header-controls">
+            <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
+                <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
+            </select>
+            <div class="status-badge">
+                <div class="pulse"></div>
+                <span id="connection-status">ออนไลน์</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>ยอดเงิน (Balance)</h3>
+            <div class="value" id="lbl-balance">$0.00</div>
+        </div>
+        <div class="stat-card">
+            <h3>มูลค่าสุทธิ (Equity)</h3>
+            <div class="value" id="lbl-equity">$0.00</div>
+        </div>
+        <div class="stat-card">
+            <h3>กำไรลอยตัว (Floating)</h3>
+            <div class="value" id="lbl-floating">$0.00</div>
+        </div>
+        <div class="stat-card">
+            <h3>กำไรเดือนนี้ (Monthly)</h3>
+            <div class="value" id="lbl-monthly">$0.00</div>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card-header">
+            <h2>📈 กราฟความเติบโต (Balance Curve)</h2>
+        </div>
+        <div style="position: relative; height: 220px; width: 100%;">
+            <canvas id="growthChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card-header">
+            <h2 id="calendar-month-year" style="font-size:14px;">ปฏิทินผลการเทรดรายวัน</h2>
+            <div>
+                <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
+                <button class="nav-btn" onclick="changeMonth(1)" style="margin-left:4px;">&gt;</button>
+            </div>
+        </div>
+        
+        <div class="calendar-grid" id="calendar-grid">
+            <div class="day-name">อา.</div>
+            <div class="day-name">จ.</div>
+            <div class="day-name">อ.</div>
+            <div class="day-name">พ.</div>
+            <div class="day-name">พฤ.</div>
+            <div class="day-name">ศ.</div>
+            <div class="day-name">ส.</div>
+        </div>
+    </div>
+
+    <!-- ตารางแสดงประวัติออเดอร์ที่เพิ่งปิดล่าสุด -->
+    <div class="card-container">
+        <div class="card-header">
+            <h2>📜 ประวัติออเดอร์ที่เพิ่งปิดล่าสุด (10 รายการล่าสุด)</h2>
+        </div>
+        <div style="overflow-x: auto;">
+            <table class="trade-table">
+                <thead>
+                    <tr>
+                        <th>เวลาปิด</th>
+                        <th>Ticket</th>
+                        <th>คู่เงิน</th>
+                        <th>ประเภท</th>
+                        <th>Lot</th>
+                        <th style="text-align: right;">กำไร/ขาดทุน</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-trades-tbody">
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">กำลังโหลดข้อมูล...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = currentDate.getMonth();
+        let globalData = null;
+        let selectedAccount = 'combined';
+        let growthChart = null;
+
+        const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+
+        function fetchData() {
+            fetch('/api/data')
+                .then(res => res.json())
+                .then(res => {
+                    globalData = res;
+                    document.getElementById('connection-status').innerText = "เชื่อมต่อแล้ว";
+                    updateAccountDropdown(res.accounts);
+                    renderDashboard();
+                })
+                .catch(err => {
+                    console.error('Error fetching data:', err);
+                    document.getElementById('connection-status').innerText = "รอสัญญาณ...";
+                });
+        }
+
+        function updateAccountDropdown(accounts) {
+            const select = document.getElementById('account-select');
+            let currentVal = select.value;
+            let html = `<option value="combined">🌐 ภาพรวมทุกพอร์ต</option>`;
+            for (let accId in accounts) {
+                html += `<option value="${accId}">พอร์ต: ${accId}</option>`;
+            }
+            select.innerHTML = html;
+            if (select.querySelector(`option[value="${currentVal}"]`)) select.value = currentVal;
+            else { select.value = 'combined'; selectedAccount = 'combined'; }
+        }
+
+        function switchAccount(val) {
+            selectedAccount = val;
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            if (!globalData) return;
+            let targetData = (selectedAccount === 'combined') ? globalData.combined : (globalData.accounts[selectedAccount] || globalData.combined);
+
+            document.getElementById('lbl-balance').innerText = `$${targetData.balance.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            document.getElementById('lbl-equity').innerText = `$${targetData.equity.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            
+            let floatingEl = document.getElementById('lbl-floating');
+            let floatingVal = targetData.floating_profit || 0;
+            floatingEl.innerText = `$${floatingVal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            floatingEl.className = `value ${floatingVal >= 0 ? 'profit-pos' : 'profit-neg'}`;
+
+            buildCalendar(targetData.deals || []);
+            buildChart(targetData.deals || [], targetData.balance);
+            buildRecentTrades(targetData.deals || []);
+        }
+
+        function buildRecentTrades(deals) {
+            const tbody = document.getElementById('recent-trades-tbody');
+            if (!deals || deals.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">ยังไม่มีประวัติการเทรด</td></tr>`;
+                return;
+            }
+
+            // เรียงลำดับจากใหม่ไปเก่าตามเวลาปิด (time)
+            let sortedDeals = [...deals].sort((a, b) => b.time - a.time);
+            let latestDeals = sortedDeals.slice(0, 10); // เอา 10 รายการล่าสุด
+
+            let html = '';
+            latestDeals.forEach(deal => {
+                let dateObj = new Date(deal.time * 1000);
+                let timeStr = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')}/${dateObj.getFullYear()} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
+                
+                let profitClass = deal.profit >= 0 ? 'profit-pos' : 'profit-neg';
+                let profitFormatted = `${deal.profit >= 0 ? '+' : ''}$${deal.profit.toFixed(2)}`;
+                let typeColor = deal.type === 'BUY' ? 'color: var(--profit-color);' : 'color: var(--loss-color);';
+
+                html += `
+                    <tr>
+                        <td>${timeStr}</td>
+                        <td>${deal.ticket}</td>
+                        <td><b>${deal.symbol}</b></td>
+                        <td><span style="${typeColor} font-weight: 600;">${deal.type}</span></td>
+                        <td>${deal.volume}</td>
+                        <td class="${profitClass}" style="font-weight: 600; text-align: right;">${profitFormatted}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function buildChart(deals, currentBalance) {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            let sortedDeals = [...deals].sort((a, b) => a.time - b.time);
+            let totalProfit = sortedDeals.reduce((sum, d) => sum + d.profit, 0);
+            let runningBalance = currentBalance - totalProfit;
+            
+            let labels = ['เริ่มต้น'];
+            let balanceData = [runningBalance];
+
+            sortedDeals.forEach(deal => {
+                runningBalance += deal.profit;
+                let dateObj = new Date(deal.time * 1000);
+                let dateStr = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()].substring(0,3)} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
+                labels.push(dateStr);
+                balanceData.push(runningBalance);
+            });
+
+            if (sortedDeals.length === 0) {
+                labels.push('ปัจจุบัน');
+                balanceData.push(currentBalance);
+            }
+
+            if (growthChart) {
+                growthChart.data.labels = labels;
+                growthChart.data.datasets[0].data = balanceData;
+                growthChart.update();
+            } else {
+                growthChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Balance ($)',
+                            data: balanceData,
+                            borderColor: '#6366f1',
+                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.2,
+                            pointRadius: 2,
+                            pointBackgroundColor: '#6366f1'
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 10 } } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 10 } } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function buildCalendar(deals) {
+            const grid = document.getElementById('calendar-grid');
+            const headers = grid.innerHTML.substring(0, grid.innerHTML.indexOf('</div></div>') + 12);
+            let html = headers;
+
+            document.getElementById('calendar-month-year').innerText = `ปฏิทิน (${monthNames[currentMonth]} ${currentYear + 543})`;
+
+            let dailyProfits = {};
+            let monthlyTotal = 0;
+
+            deals.forEach(deal => {
+                let dStr = deal.date.replace(/\./g, '-');
+                let dealDate = new Date(dStr);
+                if (dealDate.getFullYear() === currentYear && dealDate.getMonth() === currentMonth) {
+                    monthlyTotal += deal.profit;
+                }
+                if (!dailyProfits[deal.date]) dailyProfits[deal.date] = 0;
+                dailyProfits[deal.date] += deal.profit;
+            });
+
+            let monthlyEl = document.getElementById('lbl-monthly');
+            monthlyEl.innerText = `$${monthlyTotal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            monthlyEl.className = `value ${monthlyTotal >= 0 ? 'profit-pos' : 'profit-neg'}`;
+
+            const firstDayIndex = new Date(currentYear, currentMonth, 1).getDay();
+            const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+
+            for (let i = 0; i < firstDayIndex; i++) {
+                html += `<div class="day-cell empty"></div>`;
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                let monthStr = String(currentMonth + 1).padStart(2, '0');
+                let dayStr = String(day).padStart(2, '0');
+                let dateKey = `${currentYear}.${monthStr}.${dayStr}`;
+                
+                let profit = dailyProfits[dateKey] || 0;
+                let profitClass = profit > 0 ? 'profit-pos' : (profit < 0 ? 'profit-neg' : 'profit-zero');
+                let isToday = (day === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear());
+                let todayClass = isToday ? 'today' : '';
+                let profitFormatted = profit !== 0 ? `${profit > 0 ? '+' : ''}$${profit.toFixed(2)}` : '-';
+
+                html += `
+                    <div class="day-cell ${todayClass}">
+                        <div style="display:flex; justify-content:space-between; width:100%;">
+                            <span class="day-number">${day}</span>
+                            ${isToday ? '<span class="live-tag">LIVE</span>' : ''}
+                        </div>
+                        <div class="day-profit ${profitClass}">${profitFormatted}</div>
+                    </div>
+                `;
+            }
+            grid.innerHTML = html;
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            else if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderDashboard();
+        }
+
+        setInterval(fetchData, 3000);
+        window.onload = fetchData;
+    </script>
+</body>
+</html>
