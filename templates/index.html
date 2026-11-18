@@ -27,13 +27,17 @@
             padding-bottom: 10px; flex-wrap: wrap; gap: 10px;
         }
 
-        .logo h1 { font-size: 16px; font-weight: 600; color: #fbbf24; }
-        .header-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .logo h1 { font-size: 15px; font-weight: 600; color: #fbbf24; }
+        
+        /* จัดกลุ่มควบคุมมุมขวาบน */
+        .header-controls { 
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap; 
+        }
 
         .account-selector {
             background: var(--card-bg); color: var(--text-main);
             border: 1px solid var(--border-color); padding: 5px 8px;
-            border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
+            border-radius: 6px; font-size: 11px; outline: none; cursor: pointer;
         }
 
         .status-badge {
@@ -49,6 +53,26 @@
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* ปุ่มและช่องกรอก PIN ขนาดกะทัดรัดสำหรับมุมขวาบน */
+        .btn-control {
+            padding: 5px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;
+            cursor: pointer; font-family: 'Prompt', sans-serif; border: none; outline: none;
+            display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
+        }
+        .btn-toggle-ea {
+            background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .btn-stop-all {
+            background: #ef4444; color: white;
+        }
+        .top-pin-input {
+            background: var(--bg-color); border: 1px solid var(--border-color); color: white;
+            padding: 5px 6px; border-radius: 6px; font-size: 10px; outline: none; width: 65px; text-align: center;
+        }
+        .btn-save-pin {
+            background: var(--primary); color: white; padding: 5px 8px;
         }
 
         /* --- Character Status Bar (CSS Sprite) --- */
@@ -209,6 +233,7 @@
         <div class="logo">
             <h1>🥇 XM MT5 Dashboard</h1>
         </div>
+        <!-- ย้ายปุ่มควบคุม EA และเปลี่ยน PIN มาจัดกลุ่มรวมกันที่มุมขวาบนตรงนี้ -->
         <div class="header-controls">
             <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
                 <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
@@ -217,6 +242,15 @@
                 <div class="pulse"></div>
                 <span id="connection-status">ออนไลน์</span>
             </div>
+            
+            <!-- ปุ่มควบคุม EA ฉุกเฉิน -->
+            <button onclick="toggleEA()" class="btn-control btn-toggle-ea">🛑 EA พอร์ต</button>
+            <button onclick="emergencyStopAll()" class="btn-control btn-stop-all">🚨 ปิดทั้งหมด</button>
+
+            <!-- ช่องเปลี่ยน PIN แบบกระชับ -->
+            <input type="password" id="old-pin" class="top-pin-input" placeholder="PIN เดิม" maxlength="6" title="PIN เดิม (6 หลัก)">
+            <input type="password" id="new-pin" class="top-pin-input" placeholder="PIN ใหม่" maxlength="6" title="PIN ใหม่ (6 หลัก)">
+            <button onclick="submitChangePin()" class="btn-control btn-save-pin" title="บันทึก PIN ใหม่">💾 PIN</button>
         </div>
     </header>
 
@@ -240,40 +274,6 @@
             <div class="merry-ship-emoji" id="merry-ship-icon" style="font-size: 36px;">⛵</div>
         </div>
         <div class="weather-desc" id="merry-weather-desc">สถานะพอร์ตปกติ ล่องเรือรับลมสบาย ๆ</div>
-    </div>
-
-    <!-- แผงควบคุม EA ฉุกเฉิน -->
-    <div class="card-container" style="border-color: rgba(239, 68, 68, 0.4); background: linear-gradient(135deg, #131b2e 0%, #1a101a 100%);">
-        <div class="card-header">
-            <h2 style="color: #fbbf24;">⚡ ระบบควบคุม EA ฉุกเฉิน (Emergency Control)</h2>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
-            <div style="font-size: 11px; color: var(--text-muted);">
-                ควบคุมพอร์ตที่เลือกจากเมนูด้านบน
-            </div>
-            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                <button onclick="toggleEA()" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
-                    🛑 เปิด/ปิด EA พอร์ตนี้
-                </button>
-                <button onclick="emergencyStopAll()" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
-                    🚨 ปิดทั้งหมดทุกพอร์ต
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ช่องเปลี่ยนรหัส PIN -->
-    <div class="card-container" style="border-color: rgba(99, 102, 241, 0.4);">
-        <div class="card-header">
-            <h2>🔐 ตั้งค่าความปลอดภัย (เปลี่ยนรหัส PIN)</h2>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-            <input type="password" id="old-pin" placeholder="PIN เดิม (6 หลัก)" maxlength="6" style="background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 6px 10px; border-radius: 6px; font-size: 11px; outline: none; width: 130px;">
-            <input type="password" id="new-pin" placeholder="PIN ใหม่ (6 หลัก)" maxlength="6" style="background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 6px 10px; border-radius: 6px; font-size: 11px; outline: none; width: 130px;">
-            <button onclick="submitChangePin()" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
-                💾 บันทึก PIN ใหม่
-            </button>
-        </div>
     </div>
 
     <div class="stats-grid">
