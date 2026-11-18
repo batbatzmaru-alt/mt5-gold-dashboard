@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XM MT5 Gold Trading Dashboard - One Piece Edition</title>
-    <!-- โหลดฟอนต์ Prompt รองรับภาษาไทย 100% -->
+    <title>XM MT5 Gold Dashboard - Going Merry Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -20,7 +19,7 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
-        body { background-color: var--bg-color); color: var(--text-main); padding: 12px; position: relative; overflow-x: hidden; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 12px; position: relative; overflow-x: hidden; }
 
         header {
             display: flex; justify-content: space-between; align-items: center;
@@ -73,10 +72,88 @@
             background-position: center;
             flex-shrink: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            background-color: #334155;
         }
         .character-info { flex-grow: 1; }
         .character-name { font-size: 13px; font-weight: 700; color: #fbbf24; display: flex; align-items: center; gap: 6px; }
         .character-dialog { font-size: 12px; color: var(--text-main); margin-top: 2px; }
+
+        /* --- Going Merry Sea Weather Card --- */
+        .merry-sea-card {
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: background 0.5s ease;
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* สภาพอากาศ: ท้องฟ้าแจ่มใส (กำไร) */
+        .merry-sea-card.sunny {
+            background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a);
+        }
+        /* สภาพอากาศ: พายุเข้า (ขาดทุน) */
+        .merry-sea-card.stormy {
+            background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a);
+            animation: shakeCard 0.5s infinite;
+        }
+        @keyframes shakeCard {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .merry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .ship-stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* เรือโกอิ้งแมรี่และการเคลื่อนไหว */
+        .merry-ship {
+            font-size: 32px;
+            transition: transform 0.3s ease;
+        }
+        .merry-sea-card.sunny .merry-ship {
+            animation: sailCalm 3s ease-in-out infinite alternate;
+        }
+        .merry-sea-card.stormy .merry-ship {
+            animation: sailStorm 0.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes sailCalm {
+            0% { transform: translateY(0px) rotate(-3deg); }
+            100% { transform: translateY(-6px) rotate(3deg); }
+        }
+        @keyframes sailStorm {
+            0% { transform: translateY(4px) rotate(-12deg) scale(0.95); }
+            100% { transform: translateY(-4px) rotate(12deg) scale(1.05); }
+        }
+
+        .weather-desc {
+            text-align: center;
+            font-size: 11px;
+            z-index: 2;
+            font-weight: 500;
+        }
 
         /* --- Floating Profit Animation --- */
         .floating-profit {
@@ -166,7 +243,7 @@
         </div>
         <div class="header-controls">
             <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
-                <option value="combined">🌐 ภาพรวมทุกพอร์ต (รวมทีมกลุ่มหมวกฟาง)</option>
+                <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
             </select>
             <div class="status-badge">
                 <div class="pulse"></div>
@@ -177,13 +254,24 @@
 
     <!-- One Piece Character Status Bar -->
     <div class="character-card" id="character-card">
-        <div class="character-avatar" id="char-avatar" style="background-image: url('https://i.pinimg.com/736x/d0/0d/16/d00d1604a11aa3cb6fb02568019e0728.jpg');"></div>
+        <div class="character-avatar" id="char-avatar" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/3/3b/Monkey_D_Luffy.png');"></div>
         <div class="character-info">
-            <div class="character-name" id="char-name">🏴‍☠️ กัปตัน ลูฟี่ (พอร์ตหลัก)</div>
+            <div class="character-name" id="char-name">🏴‍☠️ กัปตัน ลูฟี่</div>
             <div class="character-dialog" id="char-dialog">"เนื้อย่างชิ้นโตอยู่แค่เอื้อม! ลุยกันเลย!"</div>
         </div>
-        <!-- จุดกำเนิดเอฟเฟกต์ตัวเลขลอย -->
         <div id="float-origin" style="position: absolute; right: 40px; bottom: 20px;"></div>
+    </div>
+
+    <!-- โซนเรือโกอิ้งแมรี่และสภาพอากาศ (ตามกำไรลอยตัว) -->
+    <div class="merry-sea-card sunny" id="merry-card">
+        <div class="merry-header">
+            <span>⛵ เรือโกอิ้งแมรี่ (Going Merry)</span>
+            <span id="merry-status-text">ท้องฟ้าแจ่มใส คลื่นลมสงบ</span>
+        </div>
+        <div class="ship-stage">
+            <div class="merry-ship" id="merry-ship-icon">⛵</div>
+        </div>
+        <div class="weather-desc" id="merry-weather-desc">สถานะพอร์ตปกติ ล่องเรือรับลมสบาย ๆ</div>
     </div>
 
     <div class="stats-grid">
@@ -276,35 +364,16 @@
         let selectedDateFilter = null; 
         let currentRange = 'all'; 
         let growthChart = null;
-        let lastKnownProfit = null; // สำหรับตรวจจับว่ามีกำไร/ขาดทุนใหม่เพื่อแสดงเอฟเฟกต์ลอย
+        let lastKnownProfit = null;
 
         const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
 
-        // ฐานข้อมูลคาแรกเตอร์ One Piece จับคู่กับหมายเลขพอร์ต (Account ID)
         const characters = {
             "combined": {
-                name: "🌐 กองเรือกลุ่มหมวกฟาง (ภาพรวมทุกพอร์ต)",
-                avatar: "https://i.pinimg.com/736x/d0/0d/16/d00d1604a11aa3cb6fb02568019e0728.jpg",
+                name: "🌐 กัปตันลูฟี่ (ภาพรวมกลุ่มหมวกฟาง)",
+                avatar: "https://upload.wikimedia.org/wikipedia/en/3/3b/Monkey_D_Luffy.png",
                 happyDialog: "Yo-Ho-Ho! ทรัพย์สมบัติพรั่งพรู ราชาแห่งโจรสลัดอยู่ไม่ไกล!",
-                sadDialog: "ชิบหายแล้ว! เรือกำลังจะล่ม ประคองพอร์ตไว้พี่น้อง!"
-            },
-            "default": {
-                name: "🍖 กัปตัน มังกี้ ดี. ลูฟี่",
-                avatar: "https://i.pinimg.com/736x/d0/0d/16/d00d1604a11aa3cb6fb02568019e0728.jpg",
-                happyDialog: "เยส! ได้กำไรมาซื้อเนื้อย่างกินเพียบเลยเว้ย ฮ่า ๆ ๆ!",
-                sadDialog: "งึ่ม... ขาดทุนเหรอเนี่ย หิวเนื้อจนไม่มีแรงสู้แล้ว!"
-            },
-            "zoro": {
-                name: "⚔️ นักดาบ โรโรโนอา โซโร",
-                avatar: "https://i.pinimg.com/736x/82/3d/82/823d82f703e33ea2cf2b740510008f57.jpg",
-                happyDialog: "วิชาสามดาบ... ฟันกำไรเข้าเป้าอย่างไร้รอยขีดข่วน!",
-                sadDialog: "เส้นทางกราฟมันหลงทิศอีกแล้วเรอะ... ช่างน่าหงุดหงิดจริง"
-            },
-            "nami": {
-                name: "🍊 ต้นเรือ นามิ (ส้ม & เงินตรา)",
-                avatar: "https://i.pinimg.com/736x/c6/35/bc/c635bc235ee20f0119ec80adfbc333c5.jpg",
-                happyDialog: "ฮ่า ๆ ๆ! เบรีเข้ากระเป๋าเต็ม ๆ ดอกเบี้ยสวยงามมาก!",
-                sadDialog: "ใครทำพอร์ตฉันเสียหายยะ! เดี๋ยวแม่เอาคืนเป็นหนี้ดอกเบี้ยร้อยละ 300!"
+                sadDialog: "พายุเข้าแล้วพี่น้อง! ช่วยกันกางใบเรือด่วน!"
             }
         };
 
@@ -326,7 +395,7 @@
         function updateAccountDropdown(accounts) {
             const select = document.getElementById('account-select');
             let currentVal = select.value;
-            let html = `<option value="combined">🌐 ภาพรวมทุกพอร์ต (รวมกลุ่มหมวกฟาง)</option>`;
+            let html = `<option value="combined">🌐 ภาพรวมทุกพอร์ต</option>`;
             for (let accId in accounts) {
                 html += `<option value="${accId}">พอร์ต: ${accId}</option>`;
             }
@@ -378,20 +447,16 @@
             floatingEl.innerText = `$${floatingVal.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
             floatingEl.className = `value ${floatingVal >= 0 ? 'profit-pos' : 'profit-neg'}`;
 
-            // อัปเดตคาแรกเตอร์ One Piece ตามพอร์ตและผลกำไร
-            updateCharacterUI(floatingVal, targetData.deals || []);
+            // อัปเดตคาแรกเตอร์และสภาพอากาศเรือโกอิ้งแมรี่ตามกำไรลอยตัว (Floating)
+            updateCharacterAndMerry(floatingVal, targetData.deals || []);
 
             buildCalendar(targetData.deals || []);
             buildRecentTrades(targetData.deals || []);
             buildChart(targetData.deals || [], targetData.balance);
         }
 
-        // ฟังก์ชันอัปเดตหน้าตาตัวละคร คำพูด และสร้างเอฟเฟกต์ตัวเลขลอย
-        function updateCharacterUI(floatingVal, deals) {
-            let charKey = (selectedAccount === 'combined') ? 'combined' : (selectedAccount === '20290909' ? 'zoro' : 'default');
-            let char = characters[charKey] || characters['default'];
-
-            document.getElementById('char-avatar').style.backgroundImage = `url('${char.avatar}')`;
+        function updateCharacterAndMerry(floatingVal, deals) {
+            let char = characters['combined'];
             document.getElementById('char-name').innerText = char.name;
 
             let dialogEl = document.getElementById('char-dialog');
@@ -399,7 +464,26 @@
             dialogEl.innerText = isProfit ? char.happyDialog : char.sadDialog;
             dialogEl.style.color = isProfit ? 'var(--profit-color)' : 'var(--loss-color)';
 
-            // ตรวจสอบดีลล่าสุดเพื่อทำเอฟเฟกต์ตัวเลขลอยพุ่งไปทางกราฟ
+            // ควบคุมสภาพอากาศเรือโกอิ้งแมรี่ตามกำไรลอยตัว
+            let merryCard = document.getElementById('merry-card');
+            let merryStatusText = document.getElementById('merry-status-text');
+            let merryShipIcon = document.getElementById('merry-ship-icon');
+            let merryWeatherDesc = document.getElementById('merry-weather-desc');
+
+            if (floatingVal >= 0) {
+                merryCard.className = "merry-sea-card sunny";
+                merryStatusText.innerText = "☀️ ท้องฟ้าแจ่มใส คลื่นลมสงบ";
+                merryShipIcon.innerText = "⛵ 🌊";
+                merryWeatherDesc.innerText = `กำไรลอยตัว +$${floatingVal.toFixed(2)} เรือล่องฉิวรับทรัพย์!`;
+                merryWeatherDesc.style.color = "var(--profit-color)";
+            } else {
+                merryCard.className = "merry-sea-card stormy";
+                merryStatusText.innerText = "⛈️ พายุเข้า! คลื่นลมรุนแรง";
+                merryShipIcon.innerText = "⛵ 🌀";
+                merryWeatherDesc.innerText = `ขาดทุนลอยตัว -$${Math.abs(floatingVal).toFixed(2)} เรือกำลังฝ่ามรสุม!`;
+                merryWeatherDesc.style.color = "var(--loss-color)";
+            }
+
             if (deals && deals.length > 0) {
                 let latestDeal = [...deals].sort((a,b) => b.time - a.time)[0];
                 if (lastKnownProfit !== latestDeal.ticket) {
@@ -409,7 +493,6 @@
             }
         }
 
-        // สร้าง Element ตัวเลขเด้งลอยขึ้นไป
         function showFloatingProfit(amount) {
             let origin = document.getElementById('float-origin');
             let floatEl = document.createElement('div');
