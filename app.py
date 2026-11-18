@@ -1,37 +1,79 @@
 from flask import Flask, render_template, request, jsonify
 
-# 1. ต้องประกาศสร้าง app ตรงนี้เป็นอันดับแรกสุด!
 app = Flask(__name__)
 
-# --- ตัวแปรตั้งค่าระบบและความปลอดภัย ---
+# --- ตัวแปรตั้งค่าความปลอดภัยและความจำข้อมูลพอร์ต ---
 system_config = {
-    "pin": "000013"  # รหัส PIN เริ่มต้น
+    "pin": "000013"
 }
 
 ea_control_states = {
     "emergency_stop_all": False,
-    "accounts": {}  # เก็บสถานะแต่ละพอร์ต เช่น { "12345678": "RUNNING" }
+    "accounts": {}
 }
 
-# --- ตัวอย่าง Endpoints หลักของ Dashboard (ถ้ามีอยู่แล้วสามารถรวมกันได้) ---
+# ตัวแปรเก็บข้อมูลพอร์ตจาก MT5 สำหรับแสดงผลบนหน้า Dashboard
+global_data = {
+    "combined": {
+        "balance": 0.0,
+        "equity": 0.0,
+        "floating_profit": 0.0,
+        "margin": 0.0,
+        "currency": "USD",
+        "deals": []
+    },
+    "accounts": {}
+}
+
+# 1. หน้าแรก Dashboard
 @app.route('/')
 def index():
     return render_template('index.html')
 
-# (หากมีฟังก์ชันรับข้อมูล /api/data เดิม ก็นำมาวางไว้แถวนี้ได้ครับ)
+# 2. API รับข้อมูลจาก EA ใน MT5 (ส่งเข้ามาทุกๆ 3 วินาที)
+@app.route('/api/update', methods=['POST'])
+def update_data():
+    global global_data
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "No data received"}), 400
+    
+    acc_id = str(data.get("account_id"))
+    global_data["accounts"][acc_id] = data
+    
+    # คำนวณรวมทุกพอร์ต (Combined) อัตโนมัติ
+    total_balance = sum(acc.get("balance", 0) for acc in global_data["accounts"].values())
+    total_equity = sum(acc.get("equity", 0) for acc in global_data["accounts"].values())
+    total_floating = sum(acc.get("floating_profit", 0) for acc in global_data["accounts"].values())
+    
+    all_deals = []
+    for acc in global_data["accounts"].values():
+        all_deals.extend(acc.get("deals", []))
+        
+    global_data["combined"] = {
+        "balance": total_balance,
+        "equity": total_equity,
+        "floating_profit": total_floating,
+        "margin": 0.0,
+        "currency": "USD",
+        "deals": all_deals
+    }
+    
+    return jsonify({"status": "success"})
 
+# 3. API ส่งข้อมูลให้หน้าเว็บ Dashboard ดึงไปแสดงผล
+@app.route('/api/data', methods=['GET'])
+def get_data():
+    return jsonify(global_data)
 
-# ==========================================
-# API ระบบควบคุม EA ฉุกเฉิน & เปลี่ยน PIN
-# ==========================================
-
+# 4. API ควบคุม EA (เปิด/ปิดพอร์ต)
 @app.route('/api/ea/toggle/<account_id>', methods=['POST'])
 def toggle_ea(account_id):
     data = request.get_json() or {}
     pin = data.get("pin", "")
     
     if pin != system_config["pin"]:
-        return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง! ไม่อนุญาตให้ดำเนินการ"}), 403
+        return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
 
     if account_id not in ea_control_states["accounts"]:
         ea_control_states["accounts"][account_id] = "RUNNING"
@@ -47,13 +89,14 @@ def toggle_ea(account_id):
         "message": f"เปลี่ยนสถานะ EA พอร์ต {account_id} เป็น {new_status} เรียบร้อยแล้ว"
     })
 
+# 5. API ปิด EA ทุกพอร์ตฉุกเฉิน
 @app.route('/api/ea/stop_all', methods=['POST'])
 def stop_all_ea():
     data = request.get_json() or {}
     pin = data.get("pin", "")
     
     if pin != system_config["pin"]:
-        return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง! ไม่อนุญาตให้ดำเนินการ"}), 403
+        return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
 
     ea_control_states["emergency_stop_all"] = True
     for acc in ea_control_states["accounts"]:
@@ -61,9 +104,10 @@ def stop_all_ea():
         
     return jsonify({
         "status": "success", 
-        "message": "🚨 ส่งสัญญาณปิดฉุกเฉิน (Emergency Stop) ทุกพอร์ตเรียบร้อยแล้ว!"
+        "message": "🚨 ส่งสัญญาณปิดฉุกเฉินทุกพอร์ตเรียบร้อยแล้ว!"
     })
 
+# 6. API เปลี่ยนรหัส PIN
 @app.route('/api/ea/change_pin', methods=['POST'])
 def change_pin():
     data = request.get_json() or {}
@@ -79,6 +123,7 @@ def change_pin():
     system_config["pin"] = new_pin
     return jsonify({"status": "success", "message": "✅ เปลี่ยนรหัส PIN สำเร็จแล้ว!"})
 
+# 7. API ให้ EA ใน MT5 เช็คสถานะ
 @app.route('/api/ea/status/<account_id>', methods=['GET'])
 def get_ea_status(account_id):
     if ea_control_states["emergency_stop_all"]:
@@ -88,7 +133,6 @@ def get_ea_status(account_id):
         ea_control_states["accounts"][account_id] = "RUNNING"
         
     return jsonify({"state": ea_control_states["accounts"][account_id]})
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
