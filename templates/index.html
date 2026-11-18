@@ -29,7 +29,6 @@
 
         .logo h1 { font-size: 15px; font-weight: 600; color: #fbbf24; }
         
-        /* จัดกลุ่มควบคุมมุมขวาบน */
         .header-controls { 
             display: flex; align-items: center; gap: 6px; flex-wrap: wrap; 
         }
@@ -40,14 +39,20 @@
             border-radius: 6px; font-size: 11px; outline: none; cursor: pointer;
         }
 
+        /* สถานะการเชื่อมต่อ และสถานะไฟ EA */
         .status-badge {
             display: flex; align-items: center; gap: 5px;
-            background: rgba(16, 185, 129, 0.1); color: var(--profit-color);
             padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
         }
         .pulse {
-            width: 6px; height: 6px; background-color: var(--profit-color);
-            border-radius: 50%; animation: pulse 1.5s infinite;
+            width: 6px; height: 6px; border-radius: 50%;
+        }
+        .pulse-green {
+            background-color: var(--profit-color);
+            animation: pulse 1.5s infinite;
+        }
+        .pulse-red {
+            background-color: var(--loss-color);
         }
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
@@ -55,7 +60,6 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* ปุ่มและช่องกรอก PIN ขนาดกะทัดรัดสำหรับมุมขวาบน */
         .btn-control {
             padding: 5px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;
             cursor: pointer; font-family: 'Prompt', sans-serif; border: none; outline: none;
@@ -75,7 +79,7 @@
             background: var(--primary); color: white; padding: 5px 8px;
         }
 
-        /* --- Character Status Bar (CSS Sprite) --- */
+        /* --- Character Status Bar --- */
         .character-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid var(--border-color);
@@ -233,21 +237,22 @@
         <div class="logo">
             <h1>🥇 XM MT5 Dashboard</h1>
         </div>
-        <!-- ย้ายปุ่มควบคุม EA และเปลี่ยน PIN มาจัดกลุ่มรวมกันที่มุมขวาบนตรงนี้ -->
         <div class="header-controls">
             <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
                 <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
             </select>
-            <div class="status-badge">
-                <div class="pulse"></div>
-                <span id="connection-status">ออนไลน์</span>
-            </div>
             
+            <!-- ไฟสถานะ EA: สีเขียวเมื่อเปิดทำงาน, สีแดงเมื่อปิด -->
+            <div id="ea-status-badge" class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--profit-color);">
+                <div id="ea-pulse" class="pulse pulse-green"></div>
+                <span id="ea-status-text">EA: เปิด</span>
+            </div>
+
             <!-- ปุ่มควบคุม EA ฉุกเฉิน -->
-            <button onclick="toggleEA()" class="btn-control btn-toggle-ea">🛑 EA พอร์ต</button>
+            <button onclick="toggleEA()" class="btn-control btn-toggle-ea">🛑 ปิด/เปิด EA</button>
             <button onclick="emergencyStopAll()" class="btn-control btn-stop-all">🚨 ปิดทั้งหมด</button>
 
-            <!-- ช่องเปลี่ยน PIN แบบกระชับ -->
+            <!-- ช่องเปลี่ยน PIN -->
             <input type="password" id="old-pin" class="top-pin-input" placeholder="PIN เดิม" maxlength="6" title="PIN เดิม (6 หลัก)">
             <input type="password" id="new-pin" class="top-pin-input" placeholder="PIN ใหม่" maxlength="6" title="PIN ใหม่ (6 หลัก)">
             <button onclick="submitChangePin()" class="btn-control btn-save-pin" title="บันทึก PIN ใหม่">💾 PIN</button>
@@ -388,14 +393,47 @@
                 .then(res => res.json())
                 .then(res => {
                     globalData = res;
-                    document.getElementById('connection-status').innerText = "ออนไลน์";
                     updateAccountDropdown(res.accounts);
+                    updateEAStatusIndicator(res.ea_control);
                     renderDashboard();
                 })
                 .catch(err => {
                     console.error('Error fetching data:', err);
-                    document.getElementById('connection-status').innerText = "รอสัญญาณ...";
                 });
+        }
+
+        // ฟังก์ชันอัปเดตไฟสถานะ EA (เขียว = เปิด, แดง = ปิด)
+        function updateEAStatusIndicator(eaControl) {
+            let badge = document.getElementById('ea-status-badge');
+            let pulse = document.getElementById('ea-pulse');
+            let text = document.getElementById('ea-status-text');
+
+            if (!eaControl) return;
+
+            let isStopped = false;
+            if (eaControl.emergency_stop_all) {
+                isStopped = true;
+            } else if (selectedAccount !== 'combined') {
+                let accState = eaControl.accounts[selectedAccount] || 'RUNNING';
+                if (accState === 'STOPPED') isStopped = true;
+            } else {
+                let states = Object.values(eaControl.accounts);
+                if (states.length > 0 && states.every(s => s === 'STOPPED')) {
+                    isStopped = true;
+                }
+            }
+
+            if (isStopped) {
+                badge.style.background = 'rgba(239, 68, 68, 0.1)';
+                badge.style.color = 'var(--loss-color)';
+                pulse.className = 'pulse pulse-red';
+                text.innerText = 'EA: ปิด';
+            } else {
+                badge.style.background = 'rgba(16, 185, 129, 0.1)';
+                badge.style.color = 'var(--profit-color)';
+                pulse.className = 'pulse pulse-green';
+                text.innerText = 'EA: เปิด';
+            }
         }
 
         function updateAccountDropdown(accounts) {
@@ -413,6 +451,9 @@
         function switchAccount(val) {
             selectedAccount = val;
             selectedDateFilter = null;
+            if (globalData && globalData.ea_control) {
+                updateEAStatusIndicator(globalData.ea_control);
+            }
             renderDashboard();
         }
 
