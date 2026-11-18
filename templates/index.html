@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XM MT5 Gold Dashboard - One Piece Crew</title>
+    <title>XM MT5 Gold Dashboard - One Piece Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -51,7 +51,7 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
-        /* --- Character Status Bar (CSS Sprite ตัดรูปจาก characters.jpg) --- */
+        /* --- Character Status Bar (CSS Sprite) --- */
         .character-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid var(--border-color);
@@ -69,7 +69,7 @@
             border-radius: 50%;
             border: 2px solid #fbbf24;
             background-image: url("{{ url_for('static', filename='characters.jpg') }}");
-            background-size: 500% 200%; /* 5 คอลัมน์, 2 แถว จากภาพตัวละคร */
+            background-size: 500% 200%;
             background-repeat: no-repeat;
             flex-shrink: 0;
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
@@ -88,14 +88,12 @@
             overflow: hidden;
             border: 1px solid var(--border-color);
             transition: background 0.5s ease;
-            min-height: 130px;
+            min-height: 120px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
-        .merry-sea-card.sunny {
-            background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a);
-        }
+        .merry-sea-card.sunny { background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a); }
         .merry-sea-card.stormy {
             background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a);
             animation: shakeCard 0.5s infinite;
@@ -108,37 +106,23 @@
             100% { transform: translate(0, 0); }
         }
 
-        .merry-header {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 12px; font-weight: 600; z-index: 2;
+        .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; }
+        .ship-stage { display: flex; justify-content: center; align-items: center; height: 50px; position: relative; z-index: 2; }
+        
+        .merry-ship-emoji {
+            display: inline-block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
         }
-
-        .ship-stage {
-            display: flex; justify-content: center; align-items: center;
-            height: 70px; position: relative; z-index: 2;
-        }
-
-        .merry-ship-img {
-            width: 130px; height: auto; object-fit: contain;
-            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-        .merry-sea-card.sunny .merry-ship-img {
-            animation: sailCalm 3s ease-in-out infinite alternate;
-            filter: drop-shadow(0 8px 15px rgba(16, 185, 129, 0.4));
-        }
-        .merry-sea-card.stormy .merry-ship-img {
-            animation: sailStorm 0.4s ease-in-out infinite alternate;
-            filter: drop-shadow(0 5px 15px rgba(239, 68, 68, 0.6)) brightness(0.8) sepia(0.3) hue-rotate(-30deg);
-        }
+        .merry-sea-card.sunny .merry-ship-emoji { animation: sailCalm 3s ease-in-out infinite alternate; }
+        .merry-sea-card.stormy .merry-ship-emoji { animation: sailStorm 0.4s ease-in-out infinite alternate; }
 
         @keyframes sailCalm {
-            0% { transform: translateY(0px) rotate(-2deg); }
-            100% { transform: translateY(-5px) rotate(2deg); }
+            0% { transform: translateY(0px) rotate(-5deg); }
+            100% { transform: translateY(-6px) rotate(5deg); }
         }
         @keyframes sailStorm {
-            0% { transform: translateY(4px) rotate(-10deg) scale(0.95); }
-            100% { transform: translateY(-4px) rotate(10deg) scale(1.05); }
+            0% { transform: translateY(4px) rotate(-15deg) scale(0.9); }
+            100% { transform: translateY(-4px) rotate(15deg) scale(1.1); }
         }
 
         .weather-desc { text-align: center; font-size: 11px; z-index: 2; font-weight: 500; }
@@ -253,9 +237,43 @@
             <span id="merry-status-text">ท้องฟ้าแจ่มใส คลื่นลมสงบ</span>
         </div>
         <div class="ship-stage">
-            <img src="https://static.wikia.nocookie.net/onepiece/images/a/a6/Going_Merry_Infobox.png" alt="Going Merry" class="merry-ship-img" id="merry-ship-img">
+            <div class="merry-ship-emoji" id="merry-ship-icon" style="font-size: 36px;">⛵</div>
         </div>
         <div class="weather-desc" id="merry-weather-desc">สถานะพอร์ตปกติ ล่องเรือรับลมสบาย ๆ</div>
+    </div>
+
+    <!-- แผงควบคุม EA ฉุกเฉิน -->
+    <div class="card-container" style="border-color: rgba(239, 68, 68, 0.4); background: linear-gradient(135deg, #131b2e 0%, #1a101a 100%);">
+        <div class="card-header">
+            <h2 style="color: #fbbf24;">⚡ ระบบควบคุม EA ฉุกเฉิน (Emergency Control)</h2>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: space-between;">
+            <div style="font-size: 11px; color: var(--text-muted);">
+                ควบคุมพอร์ตที่เลือกจากเมนูด้านบน
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                <button onclick="toggleEA()" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
+                    🛑 เปิด/ปิด EA พอร์ตนี้
+                </button>
+                <button onclick="emergencyStopAll()" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
+                    🚨 ปิดทั้งหมดทุกพอร์ต
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ช่องเปลี่ยนรหัส PIN -->
+    <div class="card-container" style="border-color: rgba(99, 102, 241, 0.4);">
+        <div class="card-header">
+            <h2>🔐 ตั้งค่าความปลอดภัย (เปลี่ยนรหัส PIN)</h2>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <input type="password" id="old-pin" placeholder="PIN เดิม (6 หลัก)" maxlength="6" style="background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 6px 10px; border-radius: 6px; font-size: 11px; outline: none; width: 130px;">
+            <input type="password" id="new-pin" placeholder="PIN ใหม่ (6 หลัก)" maxlength="6" style="background: var(--bg-color); border: 1px solid var(--border-color); color: white; padding: 6px 10px; border-radius: 6px; font-size: 11px; outline: none; width: 130px;">
+            <button onclick="submitChangePin()" style="background: var(--primary); color: white; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Prompt', sans-serif;">
+                💾 บันทึก PIN ใหม่
+            </button>
+        </div>
     </div>
 
     <div class="stats-grid">
@@ -352,7 +370,6 @@
 
         const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
 
-        // ฐานข้อมูลตัวละคร 10 ตัวจากภาพ (จัดเรียงตามตำแหน่ง แถวละ 5 ตัว)
         const characterList = [
             { name: "กัปตัน ลูฟี่", happy: "เยส! ได้กำไรมาซื้อเนื้อย่างกินเพียบเลยเว้ย!", sad: "หิวเนื้อจนไม่มีแรงสู้แล้ว พอร์ตแดงแจ๋เลย!", bgPos: "0% 0%" },
             { name: "โรโรโนอา โซโร", happy: "วิชาสามดาบ ฟันกำไรเข้าเป้าไร้รอยขีดข่วน!", sad: "เส้นทางกราฟมันหลงทิศอีกแล้วเรอะ...", bgPos: "25% 0%" },
@@ -361,7 +378,7 @@
             { name: "ช็อปเปอร์", happy: "ฮือ ๆ ดีใจจังเลย กำไรมาแล้ว เย่!", sad: "แย่แล้ว ๆ พอร์ตป่วยหนัก ต้องรีบรักษาด่วน!", bgPos: "100% 0%" },
             { name: "อุซุป (โซเงคิง)", happy: "เห็นไหมล่ะ ฝีมือยิงเป้าทำกำไรของกัปตันอุซุปผู้ยิ่งใหญ่!", sad: "ว๊ากกก! พอร์ตจะแตกแล้ว หนีเร้ววว!", bgPos: "0% 100%" },
             { name: "นิคโก โรบิน", happy: "ฟลูสึเซฟ... การลงทุนงอกเงยงดงามมากค่ะ", sad: "สถานการณ์เริ่มน่ากังวลแล้วนะคะ...", bgPos: "25% 100%" },
-            { name: "แฟรงกี้", happy: "ซูเปอร์พอร์ต! กำไรพุ่งทะยานระดับซูเปอร์เลยเว้ยเฮ้ย!", sd: "เครื่องยนต์ขัดข้อง! ต้องซ่อมด่วน SUPER!", bgPos: "50% 100%" },
+            { name: "แฟรงกี้", happy: "ซูเปอร์พอร์ต! กำไรพุ่งทะยานระดับซูเปอร์เลยเว้ยเฮ้ย!", sad: "เครื่องยนต์ขัดข้อง! ต้องซ่อมด่วน SUPER!", bgPos: "50% 100%" },
             { name: "โปร์โตกัส ดี. เอส", happy: "ไฟลุกท่วมพอร์ตแล้ว! กำไรเดือดดาลจริง ๆ!", sad: "เปลวเพลิงเริ่มมอดดับ... ต้องเติมเชื้อเพลิงใหม่!", bgPos: "75% 100%" },
             { name: "แชงค์ส ผมแดง", happy: "ทำได้ดีนี่... ให้เกียรติกับชัยชนะครั้งนี้หน่อย", sad: "ตลาดมีความผันผวนสูง... ต้องใจเย็นไว้สหาย", bgPos: "100% 100%" }
         ];
@@ -384,7 +401,7 @@
         function updateAccountDropdown(accounts) {
             const select = document.getElementById('account-select');
             let currentVal = select.value;
-            let html = `<option value="combined">🌐 ภาพรวมทุกพอร์ต (กลุ่มหมวกฟาง)</option>`;
+            let html = `<option value="combined">🌐 ภาพรวมทุกพอร์ต</option>`;
             for (let accId in accounts) {
                 html += `<option value="${accId}">พอร์ต: ${accId}</option>`;
             }
@@ -444,14 +461,12 @@
         }
 
         function updateCharacterAndMerry(targetData, floatingVal) {
-            // เลือกตัวละครตาม Account ID หรือใช้ลูฟี่เป็นหลักถ้าเป็นภาพรวม
             let charIndex = 0;
             if (selectedAccount !== 'combined') {
                 charIndex = Math.abs(parseInt(selectedAccount) || 0) % characterList.length;
             }
             let char = characterList[charIndex];
 
-            // อัปเดต CSS Sprite ให้แสดงตัวละครที่ตรงกับพอร์ต
             let avatarEl = document.getElementById('char-avatar');
             avatarEl.style.backgroundPosition = char.bgPos;
 
@@ -462,7 +477,6 @@
             dialogEl.innerText = isProfit ? char.happy : char.sad;
             dialogEl.style.color = isProfit ? 'var(--profit-color)' : 'var(--loss-color)';
 
-            // อัปเดตสภาพอากาศเรือโกอิ้งแมรี่
             let merryCard = document.getElementById('merry-card');
             let merryStatusText = document.getElementById('merry-status-text');
             let merryWeatherDesc = document.getElementById('merry-weather-desc');
@@ -498,6 +512,78 @@
             
             origin.appendChild(floatEl);
             setTimeout(() => { floatEl.remove(); }, 1800);
+        }
+
+        // ฟังก์ชันควบคุม EA ฉุกเฉิน
+        function toggleEA() {
+            if (selectedAccount === 'combined') {
+                alert("กรุณาเลือกพอร์ตเฉพาะเจาะจงที่เมนูด้านบนก่อนสั่งเปลี่ยนสถานะ EA ครับ");
+                return;
+            }
+            
+            let pin = prompt("🔐 กรุณากรอกรหัส PIN 6 หลักเพื่อยืนยัน:");
+            if (pin === null) return;
+            
+            if (pin.length !== 6) {
+                alert("❌ กรุณากรอกรหัส PIN ให้ครบ 6 หลัก!");
+                return;
+            }
+
+            fetch(`/api/ea/toggle/${selectedAccount}`, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: pin })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                fetchData();
+            })
+            .catch(err => console.error('Error toggling EA:', err));
+        }
+
+        function emergencyStopAll() {
+            let pin = prompt("🚨 คำเตือนวิกฤต! กรุณากรอกรหัส PIN 6 หลักเพื่อยืนยันการปิด EA ทั้งหมด:");
+            if (pin === null) return;
+
+            fetch('/api/ea/stop_all', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: pin })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                fetchData();
+            })
+            .catch(err => console.error('Error emergency stop:', err));
+        }
+
+        function submitChangePin() {
+            let oldPin = document.getElementById('old-pin').value;
+            let newPin = document.getElementById('new-pin').value;
+
+            if (oldPin.length !== 6 || newPin.length !== 6) {
+                alert("❌ กรุณากรอกรหัส PIN เดิมและใหม่ให้ครบ 6 หลักครับ");
+                return;
+            }
+
+            if (!confirm("คุณต้องการเปลี่ยนรหัส PIN ใช่หรือไม่?")) return;
+
+            fetch('/api/ea/change_pin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ old_pin: oldPin, new_pin: newPin })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.status === 'success') {
+                    document.getElementById('old-pin').value = '';
+                    document.getElementById('new-pin').value = '';
+                }
+            })
+            .catch(err => console.error('Error changing PIN:', err));
         }
 
         function buildRecentTrades(deals) {
