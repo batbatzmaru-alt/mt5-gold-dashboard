@@ -19,74 +19,33 @@
             --primary: #6366f1;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Prompt', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 12px;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); padding: 12px; }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            flex-wrap: wrap;
-            gap: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px; border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px; flex-wrap: wrap; gap: 10px;
         }
 
-        .logo h1 {
-            font-size: 16px;
-            font-weight: 600;
-            color: #fbbf24;
-        }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .logo h1 { font-size: 16px; font-weight: 600; color: #fbbf24; }
+        .header-controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
         .account-selector {
-            background: var(--card-bg);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 5px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            outline: none;
-            cursor: pointer;
+            background: var(--card-bg); color: var(--text-main);
+            border: 1px solid var(--border-color); padding: 5px 8px;
+            border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
         }
 
         .status-badge {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--profit-color);
-            padding: 4px 8px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 500;
+            display: flex; align-items: center; gap: 5px;
+            background: rgba(16, 185, 129, 0.1); color: var(--profit-color);
+            padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
         }
-
         .pulse {
-            width: 6px;
-            height: 6px;
-            background-color: var(--profit-color);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            width: 6px; height: 6px; background-color: var(--profit-color);
+            border-radius: 50%; animation: pulse 1.5s infinite;
         }
-
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
@@ -94,175 +53,68 @@
         }
 
         .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin-bottom: 16px;
         }
-
-        @media (min-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
 
         .stat-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 12px;
         }
-
-        .stat-card h3 {
-            font-size: 11px;
-            color: var(--text-muted);
-            font-weight: 400;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .value {
-            font-size: 16px;
-            font-weight: 600;
-        }
+        .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
+        .stat-card .value { font-size: 16px; font-weight: 600; }
 
         .card-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 16px;
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 14px; margin-bottom: 16px;
         }
-
         .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
         }
+        .card-header h2 { font-size: 14px; font-weight: 600; }
 
-        .card-header h2 {
-            font-size: 14px;
-            font-weight: 600;
+        /* ปุ่มเลือกช่วงเวลากราฟ */
+        .range-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+        .range-btn {
+            background: var(--border-color); border: none; color: var(--text-muted);
+            padding: 3px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: 'Prompt', sans-serif;
         }
+        .range-btn.active { background: var(--primary); color: white; font-weight: 600; }
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-        }
-
-        .day-name {
-            text-align: center;
-            font-weight: 600;
-            color: var(--text-muted);
-            padding: 4px;
-            font-size: 10px;
-        }
-
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 4px; font-size: 10px; }
         .day-cell {
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            min-height: 65px;
-            padding: 5px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.2s;
+            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);
+            border-radius: 6px; min-height: 65px; padding: 5px; display: flex;
+            flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.2s;
         }
-
-        .day-cell:hover {
-            border-color: var(--primary);
-            background-color: rgba(99, 102, 241, 0.08);
-        }
-
-        .day-cell.selected {
-            border: 2px solid var(--primary);
-            background-color: rgba(99, 102, 241, 0.15);
-        }
-
-        .day-cell.empty {
-            background-color: transparent;
-            border: none;
-            cursor: default;
-        }
-
-        .day-cell.today {
-            border: 1px dashed var(--primary);
-        }
-
-        .day-number {
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-
-        .day-profit {
-            font-size: 11px;
-            font-weight: 600;
-            text-align: right;
-        }
-
+        .day-cell:hover { border-color: var(--primary); background-color: rgba(99, 102, 241, 0.08); }
+        .day-cell.selected { border: 2px solid var(--primary); background-color: rgba(99, 102, 241, 0.15); }
+        .day-cell.empty { background-color: transparent; border: none; cursor: default; }
+        .day-cell.today { border: 1px dashed var(--primary); }
+        .day-number { font-size: 10px; font-weight: 500; color: var(--text-muted); }
+        .day-profit { font-size: 11px; font-weight: 600; text-align: right; }
         .profit-pos { color: var(--profit-color); }
         .profit-neg { color: var(--loss-color); }
         .profit-zero { color: var(--text-muted); }
-
-        .live-tag {
-            font-size: 7px;
-            background: var(--primary);
-            color: white;
-            padding: 1px 3px;
-            border-radius: 3px;
-            align-self: flex-start;
-        }
+        .live-tag { font-size: 7px; background: var(--primary); color: white; padding: 1px 3px; border-radius: 3px; align-self: flex-start; }
 
         .nav-btn {
-            padding: 4px 8px;
-            background: var(--border-color);
-            border: none;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: 'Prompt', sans-serif;
-            font-size: 11px;
+            padding: 4px 8px; background: var(--border-color); border: none;
+            color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 11px;
         }
         .nav-btn:hover { background: var(--primary); }
 
-        /* ตารางประวัติสำหรับมือถือ */
-        .trade-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            text-align: left;
-        }
-        .trade-table th, .trade-table td {
-            padding: 6px 8px;
-            border-bottom: 1px solid var(--border-color);
-        }
-        .trade-table th {
-            color: var(--text-muted);
-            font-weight: 500;
-            background-color: rgba(255, 255, 255, 0.01);
-        }
-        .filter-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        /* ตารางประวัติกระชับสำหรับมือถือ */
+        .trade-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
+        .trade-table th, .trade-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); }
+        .trade-table th { color: var(--text-muted); font-weight: 500; background-color: rgba(255, 255, 255, 0.01); }
+        .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 11px; color: var(--text-muted); }
         .reset-filter-btn {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--loss-color);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 2px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 11px;
+            background: rgba(239, 68, 68, 0.1); color: var(--loss-color);
+            border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 10px;
         }
     </style>
 </head>
@@ -302,11 +154,19 @@
         </div>
     </div>
 
+    <!-- กราฟความเติบโต พร้อมปุ่มเลือกช่วงเวลา -->
     <div class="card-container">
         <div class="card-header">
-            <h2>📈 กราฟความเติบโต (Balance Curve)</h2>
+            <h2>📈 กราฟความเติบโต</h2>
+            <div class="range-btns">
+                <button class="range-btn active" id="btn-range-all" onclick="setChartRange('all')">ทั้งหมด</button>
+                <button class="range-btn" id="btn-range-day" onclick="setChartRange('day')">วัน</button>
+                <button class="range-btn" id="btn-range-week" onclick="setChartRange('week')">สัปดาห์</button>
+                <button class="range-btn" id="btn-range-month" onclick="setChartRange('month')">เดือน</button>
+                <button class="range-btn" id="btn-range-year" onclick="setChartRange('year')">ปี</button>
+            </div>
         </div>
-        <div style="position: relative; height: 200px; width: 100%;">
+        <div style="position: relative; height: 190px; width: 100%;">
             <canvas id="growthChart"></canvas>
         </div>
     </div>
@@ -319,7 +179,6 @@
                 <button class="nav-btn" onclick="changeMonth(1)" style="margin-left:4px;">&gt;</button>
             </div>
         </div>
-        
         <div class="calendar-grid" id="calendar-grid">
             <div class="day-name">อา.</div>
             <div class="day-name">จ.</div>
@@ -364,7 +223,8 @@
         let currentMonth = currentDate.getMonth();
         let globalData = null;
         let selectedAccount = 'combined';
-        let selectedDateFilter = null; // เก็บวันที่ที่กำลังคลิกดูย้อนหลัง (รูปแบบ YYYY.MM.DD)
+        let selectedDateFilter = null; 
+        let currentRange = 'all'; // 'all', 'day', 'week', 'month', 'year'
         let growthChart = null;
 
         const monthNames = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
@@ -374,7 +234,7 @@
                 .then(res => res.json())
                 .then(res => {
                     globalData = res;
-                    document.getElementById('connection-status').innerText = "เชื่อมต่อแล้ว";
+                    document.getElementById('connection-status').innerText = "ออนไลน์";
                     updateAccountDropdown(res.accounts);
                     renderDashboard();
                 })
@@ -398,18 +258,33 @@
 
         function switchAccount(val) {
             selectedAccount = val;
-            selectedDateFilter = null; // รีเซ็ตตัวกรองวันเมื่อเปลี่ยนพอร์ต
+            selectedDateFilter = null;
+            renderDashboard();
+        }
+
+        function setChartRange(range) {
+            currentRange = range;
+            document.querySelectorAll('.range-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-range-${range}`).classList.add('active');
             renderDashboard();
         }
 
         function filterByDate(dateKey) {
-            selectedDateFilter = (selectedDateFilter === dateKey) ? null : dateKey; // กดซ้ำเพื่อยกเลิก
+            if (selectedDateFilter === dateKey) {
+                selectedDateFilter = null;
+                currentRange = 'all';
+                setChartRange('all');
+            } else {
+                selectedDateFilter = dateKey;
+                currentRange = 'day';
+                setChartRange('day');
+            }
             renderDashboard();
         }
 
         function resetDateFilter() {
             selectedDateFilter = null;
-            renderDashboard();
+            setChartRange('all');
         }
 
         function renderDashboard() {
@@ -426,6 +301,7 @@
 
             buildCalendar(targetData.deals || []);
             buildRecentTrades(targetData.deals || []);
+            buildChart(targetData.deals || [], targetData.balance);
         }
 
         function buildRecentTrades(deals) {
@@ -436,7 +312,6 @@
             let filteredDeals = deals;
             
             if (selectedDateFilter) {
-                // กรองเฉพาะดีลที่ตรงกับวันที่คลิก (selectedDateFilter คือรูปแบบ YYYY.MM.DD)
                 filteredDeals = deals.filter(d => d.date === selectedDateFilter);
                 filterContainer.style.display = 'flex';
                 let parts = selectedDateFilter.split('.');
@@ -446,13 +321,12 @@
             }
 
             if (!filteredDeals || filteredDeals.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 15px;">ไม่มีประวัติการเทรดในเงื่อนไขนี้</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 15px;">ไม่มีประวัติการเทรด</td></tr>`;
                 return;
             }
 
-            // เรียงลำดับจากใหม่ไปเก่าตามเวลาปิด
             let sortedDeals = [...filteredDeals].sort((a, b) => b.time - a.time);
-            let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 10); // ถ้าไม่ได้เลือกวัน แสดง 10 รายการล่าสุด
+            let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 10);
 
             let html = '';
             displayDeals.forEach(deal => {
@@ -475,6 +349,86 @@
                 `;
             });
             tbody.innerHTML = html;
+        }
+
+        function buildChart(deals, currentBalance) {
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            let sortedDeals = [...deals].sort((a, b) => a.time - b.time);
+
+            // กรองข้อมูลตาม Range ที่เลือก
+            let now = new Date();
+            let filteredDeals = sortedDeals.filter(deal => {
+                let d = new Date(deal.time * 1000);
+                if (currentRange === 'day') {
+                    let targetDateStr = selectedDateFilter ? selectedDateFilter.replace(/\./g, '-') : now.toISOString().split('T')[0];
+                    return d.toISOString().split('T')[0] === targetDateStr;
+                } else if (currentRange === 'week') {
+                    let oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                    return d >= oneWeekAgo;
+                } else if (currentRange === 'month') {
+                    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+                } else if (currentRange === 'year') {
+                    return d.getFullYear() === now.getFullYear();
+                }
+                return true; // 'all'
+            });
+
+            let totalProfitAll = sortedDeals.reduce((sum, d) => sum + d.profit, 0);
+            let runningBalance = currentBalance - totalProfitAll;
+            
+            // คำนวณ Balance เริ่มต้นของช่วงเวลานั้นๆ
+            for (let deal of sortedDeals) {
+                if (filteredDeals.length > 0 && deal.time < filteredDeals[0].time) {
+                    runningBalance += deal.profit;
+                }
+            }
+
+            let labels = ['เริ่มต้น'];
+            let balanceData = [runningBalance];
+
+            filteredDeals.forEach(deal => {
+                runningBalance += deal.profit;
+                let dateObj = new Date(deal.time * 1000);
+                let dateStr = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()].substring(0,3)} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
+                labels.push(dateStr);
+                balanceData.push(runningBalance);
+            });
+
+            if (filteredDeals.length === 0) {
+                labels.push('ปัจจุบัน');
+                balanceData.push(currentBalance);
+            }
+
+            // ทำลายกราฟเก่าทิ้งก่อนสร้างใหม่เพื่อป้องกันบั๊ก Canvas
+            if (growthChart) {
+                growthChart.destroy();
+            }
+
+            growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Balance ($)',
+                        data: balanceData,
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.2,
+                        pointRadius: 2,
+                        pointBackgroundColor: '#6366f1'
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 9 } } },
+                        y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 9 } } }
+                    }
+                }
+            });
         }
 
         function buildCalendar(deals) {
