@@ -142,3 +142,41 @@ def get_ea_status(account_id):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+
+
+# API สำหรับลบพอร์ตออกจากระบบ (เคลียร์ออกจาก memory)
+@app.route('/api/ea/remove/<account_id>', methods=['POST'])
+def remove_account(account_id):
+    data = request.get_json() or {}
+    pin = data.get("pin", "")
+    
+    if pin != system_config["pin"]:
+        return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
+
+    # ลบพอร์ตออกจากข้อมูลพอร์ต
+    if account_id in global_data["accounts"]:
+        del global_data["accounts"][account_id]
+        
+    # ลบพอร์ตออกจากสถานะควบคุม EA
+    if account_id in ea_control_states["accounts"]:
+        del ea_control_states["accounts"][account_id]
+        
+    # คำนวณภาพรวม (Combined) ใหม่ทันที
+    total_balance = sum(acc.get("balance", 0) for acc in global_data["accounts"].values())
+    total_equity = sum(acc.get("equity", 0) for acc in global_data["accounts"].values())
+    total_floating = sum(acc.get("floating_profit", 0) for acc in global_data["accounts"].values())
+    
+    all_deals = []
+    for acc in global_data["accounts"].values():
+        all_deals.extend(acc.get("deals", []))
+        
+    global_data["combined"] = {
+        "balance": total_balance,
+        "equity": total_equity,
+        "floating_profit": total_floating,
+        "margin": 0.0,
+        "currency": "USD",
+        "deals": all_deals
+    }
+    
+    return jsonify({"status": "success", "message": f"🗑️ ลบพอร์ต {account_id} ออกจากระบบเรียบร้อยแล้ว"})
