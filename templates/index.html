@@ -39,21 +39,13 @@
             border-radius: 6px; font-size: 11px; outline: none; cursor: pointer;
         }
 
-        /* สถานะการเชื่อมต่อ และสถานะไฟ EA */
         .status-badge {
             display: flex; align-items: center; gap: 5px;
             padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
         }
-        .pulse {
-            width: 6px; height: 6px; border-radius: 50%;
-        }
-        .pulse-green {
-            background-color: var(--profit-color);
-            animation: pulse 1.5s infinite;
-        }
-        .pulse-red {
-            background-color: var(--loss-color);
-        }
+        .pulse { width: 6px; height: 6px; border-radius: 50%; }
+        .pulse-green { background-color: var(--profit-color); animation: pulse 1.5s infinite; }
+        .pulse-red { background-color: var(--loss-color); }
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
@@ -65,43 +57,24 @@
             cursor: pointer; font-family: 'Prompt', sans-serif; border: none; outline: none;
             display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
         }
-        .btn-toggle-ea {
-            background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-        .btn-stop-all {
-            background: #ef4444; color: white;
-        }
+        .btn-toggle-ea { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); }
+        .btn-stop-all { background: #ef4444; color: white; }
         .top-pin-input {
             background: var(--bg-color); border: 1px solid var(--border-color); color: white;
-            padding: 5px 6px; border-radius: 6px; font-size: 10px; outline: none; width: 65px; text-align: center;
+            padding: 5px 6px; border-radius: 6px; font-size: 10px; outline: none; width: 60px; text-align: center;
         }
-        .btn-save-pin {
-            background: var(--primary); color: white; padding: 5px 8px;
-        }
+        .btn-save-pin { background: var(--primary); color: white; padding: 5px 8px; }
 
         /* --- Character Status Bar --- */
         .character-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            position: relative;
-            overflow: hidden;
+            border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden;
         }
         .character-avatar {
-            width: 60px; height: 60px;
-            border-radius: 50%;
-            border: 2px solid #fbbf24;
+            width: 60px; height: 60px; border-radius: 50%; border: 2px solid #fbbf24;
             background-image: url("{{ url_for('static', filename='characters.jpg') }}");
-            background-size: 500% 200%;
-            background-repeat: no-repeat;
-            flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            background-color: #1e293b;
+            background-size: 500% 200%; background-repeat: no-repeat; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.4); background-color: #1e293b;
         }
         .character-info { flex-grow: 1; }
         .character-name { font-size: 13px; font-weight: 700; color: #fbbf24; display: flex; align-items: center; gap: 6px; }
@@ -109,57 +82,27 @@
 
         /* --- Going Merry Sea Weather Card --- */
         .merry-sea-card {
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: background 0.5s ease;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            border-radius: 12px; padding: 14px; margin-bottom: 16px; position: relative; overflow: hidden;
+            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between;
         }
         .merry-sea-card.sunny { background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a); }
-        .merry-sea-card.stormy {
-            background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a);
-            animation: shakeCard 0.5s infinite;
-        }
+        .merry-sea-card.stormy { background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a); animation: shakeCard 0.5s infinite; }
         @keyframes shakeCard {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(-1px, 1px); }
-            50% { transform: translate(1px, -1px); }
-            75% { transform: translate(-1px, -1px); }
-            100% { transform: translate(0, 0); }
+            0% { transform: translate(0, 0); } 25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); } 75% { transform: translate(-1px, -1px); } 100% { transform: translate(0, 0); }
         }
-
         .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; }
         .ship-stage { display: flex; justify-content: center; align-items: center; height: 50px; position: relative; z-index: 2; }
-        
-        .merry-ship-emoji {
-            display: inline-block;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-        }
+        .merry-ship-emoji { display: inline-block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
         .merry-sea-card.sunny .merry-ship-emoji { animation: sailCalm 3s ease-in-out infinite alternate; }
         .merry-sea-card.stormy .merry-ship-emoji { animation: sailStorm 0.4s ease-in-out infinite alternate; }
-
-        @keyframes sailCalm {
-            0% { transform: translateY(0px) rotate(-5deg); }
-            100% { transform: translateY(-6px) rotate(5deg); }
-        }
-        @keyframes sailStorm {
-            0% { transform: translateY(4px) rotate(-15deg) scale(0.9); }
-            100% { transform: translateY(-4px) rotate(15deg) scale(1.1); }
-        }
-
+        @keyframes sailCalm { 0% { transform: translateY(0px) rotate(-5deg); } 100% { transform: translateY(-6px) rotate(5deg); } }
+        @keyframes sailStorm { 0% { transform: translateY(4px) rotate(-15deg) scale(0.9); } 100% { transform: translateY(-4px) rotate(15deg) scale(1.1); } }
         .weather-desc { text-align: center; font-size: 11px; z-index: 2; font-weight: 500; }
 
-        /* --- Floating Profit Animation --- */
         .floating-profit {
             position: absolute; font-weight: 700; font-size: 18px; pointer-events: none;
-            animation: floatUp 1.8s ease-out forwards; z-index: 99;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            animation: floatUp 1.8s ease-out forwards; z-index: 99; text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         @keyframes floatUp {
             0% { opacity: 1; transform: translateY(0) scale(0.8); }
@@ -167,42 +110,25 @@
             100% { opacity: 0; transform: translateY(-90px) scale(1); }
         }
 
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 10px; margin-bottom: 16px;
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
         @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
-
-        .stat-card {
-            background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 12px;
-        }
+        .stat-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; }
         .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
         .stat-card .value { font-size: 16px; font-weight: 600; }
 
-        .card-container {
-            background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 14px; margin-bottom: 16px;
-        }
-        .card-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
-        }
+        .card-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .card-header h2 { font-size: 14px; font-weight: 600; }
 
         .range-btns { display: flex; gap: 4px; flex-wrap: wrap; }
-        .range-btn {
-            background: var(--border-color); border: none; color: var(--text-muted);
-            padding: 3px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: 'Prompt', sans-serif;
-        }
+        .range-btn { background: var(--border-color); border: none; color: var(--text-muted); padding: 3px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: 'Prompt', sans-serif; }
         .range-btn.active { background: var(--primary); color: white; font-weight: 600; }
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
         .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 4px; font-size: 10px; }
         .day-cell {
-            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color);
-            border-radius: 6px; min-height: 65px; padding: 5px; display: flex;
-            flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.2s;
+            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 6px;
+            min-height: 65px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.2s;
         }
         .day-cell:hover { border-color: var(--primary); background-color: rgba(99, 102, 241, 0.08); }
         .day-cell.selected { border: 2px solid var(--primary); background-color: rgba(99, 102, 241, 0.15); }
@@ -215,20 +141,14 @@
         .profit-zero { color: var(--text-muted); }
         .live-tag { font-size: 7px; background: var(--primary); color: white; padding: 1px 3px; border-radius: 3px; align-self: flex-start; }
 
-        .nav-btn {
-            padding: 4px 8px; background: var(--border-color); border: none;
-            color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 11px;
-        }
+        .nav-btn { padding: 4px 8px; background: var(--border-color); border: none; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 11px; }
         .nav-btn:hover { background: var(--primary); }
 
         .trade-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
         .trade-table th, .trade-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); }
         .trade-table th { color: var(--text-muted); font-weight: 500; background-color: rgba(255, 255, 255, 0.01); }
         .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 11px; color: var(--text-muted); }
-        .reset-filter-btn {
-            background: rgba(239, 68, 68, 0.1); color: var(--loss-color);
-            border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 10px;
-        }
+        .reset-filter-btn { background: rgba(239, 68, 68, 0.1); color: var(--loss-color); border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; }
     </style>
 </head>
 <body>
@@ -242,7 +162,10 @@
                 <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
             </select>
             
-            <!-- ไฟสถานะ EA: สีเขียวเมื่อเปิดทำงาน, สีแดงเมื่อปิด -->
+            <!-- ปุ่มลบพอร์ต -->
+            <button onclick="removeSelectedAccount()" class="btn-control" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);" title="ลบพอร์ตที่เลือก">🗑️ ลบพอร์ต</button>
+
+            <!-- ไฟสถานะ EA (เขียว/แดง) -->
             <div id="ea-status-badge" class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--profit-color);">
                 <div id="ea-pulse" class="pulse pulse-green"></div>
                 <span id="ea-status-text">EA: เปิด</span>
@@ -397,12 +320,9 @@
                     updateEAStatusIndicator(res.ea_control);
                     renderDashboard();
                 })
-                .catch(err => {
-                    console.error('Error fetching data:', err);
-                });
+                .catch(err => console.error('Error fetching data:', err));
         }
 
-        // ฟังก์ชันอัปเดตไฟสถานะ EA (เขียว = เปิด, แดง = ปิด)
         function updateEAStatusIndicator(eaControl) {
             let badge = document.getElementById('ea-status-badge');
             let pulse = document.getElementById('ea-pulse');
@@ -555,20 +475,14 @@
             setTimeout(() => { floatEl.remove(); }, 1800);
         }
 
-        // ฟังก์ชันควบคุม EA ฉุกเฉิน
         function toggleEA() {
             if (selectedAccount === 'combined') {
                 alert("กรุณาเลือกพอร์ตเฉพาะเจาะจงที่เมนูด้านบนก่อนสั่งเปลี่ยนสถานะ EA ครับ");
                 return;
             }
-            
             let pin = prompt("🔐 กรุณากรอกรหัส PIN 6 หลักเพื่อยืนยัน:");
             if (pin === null) return;
-            
-            if (pin.length !== 6) {
-                alert("❌ กรุณากรอกรหัส PIN ให้ครบ 6 หลัก!");
-                return;
-            }
+            if (pin.length !== 6) { alert("❌ กรุณากรอกรหัส PIN ให้ครบ 6 หลัก!"); return; }
 
             fetch(`/api/ea/toggle/${selectedAccount}`, { 
                 method: 'POST',
@@ -576,10 +490,7 @@
                 body: JSON.stringify({ pin: pin })
             })
             .then(res => res.json())
-            .then(data => {
-                alert(data.message);
-                fetchData();
-            })
+            .then(data => { alert(data.message); fetchData(); })
             .catch(err => console.error('Error toggling EA:', err));
         }
 
@@ -593,11 +504,36 @@
                 body: JSON.stringify({ pin: pin })
             })
             .then(res => res.json())
+            .then(data => { alert(data.message); fetchData(); })
+            .catch(err => console.error('Error emergency stop:', err));
+        }
+
+        function removeSelectedAccount() {
+            if (selectedAccount === 'combined') {
+                alert("❌ กรุณาเลือกพอร์ตเฉพาะเจาะจงที่เมนูด้านบนก่อนทำการลบพอร์ตครับ");
+                return;
+            }
+            let pin = prompt(`🗑️ กรุณากรอกรหัส PIN 6 หลักเพื่อยืนยันการลบพอร์ต ${selectedAccount}:`);
+            if (pin === null) return;
+            if (pin.length !== 6) { alert("❌ กรุณากรอกรหัส PIN ให้ครบ 6 หลัก!"); return; }
+
+            if (!confirm(`คุณต้องการลบพอร์ต ${selectedAccount} ออกจาก Dashboard ใช่หรือไม่?`)) return;
+
+            fetch(`/api/ea/remove/${selectedAccount}`, { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: pin })
+            })
+            .then(res => res.json())
             .then(data => {
                 alert(data.message);
-                fetchData();
+                if (data.status === 'success') {
+                    selectedAccount = 'combined';
+                    document.getElementById('account-select').value = 'combined';
+                    fetchData();
+                }
             })
-            .catch(err => console.error('Error emergency stop:', err));
+            .catch(err => console.error('Error removing account:', err));
         }
 
         function submitChangePin() {
@@ -608,7 +544,6 @@
                 alert("❌ กรุณากรอกรหัส PIN เดิมและใหม่ให้ครบ 6 หลักครับ");
                 return;
             }
-
             if (!confirm("คุณต้องการเปลี่ยนรหัส PIN ใช่หรือไม่?")) return;
 
             fetch('/api/ea/change_pin', {
@@ -633,7 +568,6 @@
             const filterText = document.getElementById('filter-text');
 
             let filteredDeals = deals;
-            
             if (selectedDateFilter) {
                 filteredDeals = deals.filter(d => d.date === selectedDateFilter);
                 filterContainer.style.display = 'flex';
@@ -655,7 +589,6 @@
             displayDeals.forEach(deal => {
                 let dateObj = new Date(deal.time * 1000);
                 let timeStr = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
-                
                 let profitClass = deal.profit >= 0 ? 'profit-pos' : 'profit-neg';
                 let profitFormatted = `${deal.profit >= 0 ? '+' : ''}$${deal.profit.toFixed(2)}`;
                 let typeColor = deal.type === 'BUY' ? 'color: var(--profit-color);' : 'color: var(--loss-color);';
@@ -742,9 +675,7 @@
                         }]
                     },
                     options: {
-                        responsive: true, 
-                        maintainAspectRatio: false,
-                        animation: false,
+                        responsive: true, maintainAspectRatio: false, animation: false,
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 9 } } },
