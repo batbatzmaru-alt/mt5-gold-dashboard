@@ -24,46 +24,55 @@
         body {
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%), var(--bg-color);
             color: var(--text-main);
-            padding: 16px;
+            padding: 12px;
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.45;
             position: relative;
             overflow-x: hidden;
+            max-width: 100vw;
         }
+        @media (min-width: 768px) { body { padding: 16px; } }
 
         .num-tabular { font-variant-numeric: tabular-nums; }
 
         header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 16px;
-            background: rgba(19, 27, 46, 0.9);
+            display: flex; flex-direction: column; align-items: stretch;
+            margin-bottom: 14px;
+            background: rgba(19, 27, 46, 0.92);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 12px 16px;
-            flex-wrap: wrap; gap: 10px;
+            padding: 12px 14px;
+            gap: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         }
+        @media (min-width: 992px) {
+            header { flex-direction: row; justify-content: space-between; align-items: center; padding: 12px 16px; }
+        }
 
-        .logo h1 { font-size: 17px; font-weight: 700; color: var(--accent-gold); letter-spacing: 0.2px; }
+        .logo h1 { font-size: 16px; font-weight: 700; color: var(--accent-gold); }
         .logo p { font-size: 11px; color: var(--text-muted); }
         
         .header-controls { 
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap; 
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 100%;
         }
+        @media (min-width: 992px) { .header-controls { width: auto; gap: 8px; } }
 
-        .control-divider {
-            width: 1px; height: 22px; background: var(--border-color); margin: 0 2px;
+        .control-divider { display: none; }
+        @media (min-width: 992px) {
+            .control-divider { display: block; width: 1px; height: 22px; background: var(--border-color); margin: 0 2px; }
         }
 
         .account-selector {
             background: var(--bg-color); color: var(--text-main);
-            border: 1px solid #334155; padding: 6px 10px;
+            border: 1px solid #334155; padding: 6px 8px;
             border-radius: 8px; font-size: 12px; outline: none; cursor: pointer;
+            flex: 1 1 auto; min-width: 130px;
         }
+        @media (min-width: 768px) { .account-selector { flex: 0 0 auto; padding: 6px 10px; } }
 
         .status-badge {
             display: flex; align-items: center; gap: 6px;
-            padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
+            padding: 5px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
         }
         .pulse { width: 7px; height: 7px; border-radius: 50%; }
         .pulse-green { background-color: var(--profit-color); animation: pulse 1.5s infinite; }
@@ -75,11 +84,12 @@
         }
 
         .btn-control {
-            padding: 6px 11px; border-radius: 8px; font-size: 12px; font-weight: 600;
+            padding: 6px 9px; border-radius: 8px; font-size: 11px; font-weight: 600;
             cursor: pointer; font-family: 'Prompt', sans-serif; border: none; outline: none;
-            display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
-            transition: transform 0.12s ease, opacity 0.15s ease;
+            display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+            white-space: nowrap; transition: transform 0.12s ease, opacity 0.15s ease;
         }
+        @media (min-width: 768px) { .btn-control { padding: 6px 11px; font-size: 12px; } }
         .btn-control:active { transform: scale(0.98); }
         .btn-toggle-ea { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); }
         .btn-close-pos { background: rgba(249, 115, 22, 0.18); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.5); }
@@ -87,27 +97,29 @@
         .btn-remove-acc { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
         .top-pin-input {
             background: var(--bg-color); border: 1px solid #334155; color: white;
-            padding: 6px 8px; border-radius: 8px; font-size: 12px; outline: none; width: 76px; text-align: center;
+            padding: 6px 6px; border-radius: 8px; font-size: 11px; outline: none; width: 68px; text-align: center;
         }
-        .btn-save-pin { background: var(--primary); color: white; padding: 6px 11px; }
+        @media (min-width: 768px) { .top-pin-input { width: 76px; font-size: 12px; padding: 6px 8px; } }
+        .btn-save-pin { background: var(--primary); color: white; padding: 6px 10px; }
 
         .character-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             border: 1px solid var(--border-color); border-radius: 14px;
-            padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden;
+            padding: 11px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; position: relative; overflow: hidden;
         }
         .character-avatar {
-            width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--accent-gold);
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--accent-gold);
             background-image: url("{{ url_for('static', filename='characters.jpg') }}");
             background-size: 500% 200%; background-repeat: no-repeat; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.4); background-color: #1e293b;
         }
-        .character-info { flex-grow: 1; }
-        .character-name { font-size: 13px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
-        .character-dialog { font-size: 12px; color: var(--text-main); margin-top: 2px; }
+        @media (min-width: 768px) { .character-avatar { width: 58px; height: 58px; } }
+        .character-info { flex-grow: 1; min-width: 0; }
+        .character-name { font-size: 12.5px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
+        .character-dialog { font-size: 12px; color: var(--text-main); margin-top: 2px; word-wrap: break-word; }
 
         .merry-sea-card {
-            border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; position: relative; overflow: hidden;
-            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;
+            border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; position: relative; overflow: hidden;
+            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 104px; display: flex; flex-direction: column; justify-content: space-between;
         }
         .merry-sea-card.sunny { background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a); }
         .merry-sea-card.stormy { background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a); animation: shakeCard 0.5s infinite; }
@@ -115,8 +127,8 @@
             0% { transform: translate(0, 0); } 25% { transform: translate(-1px, 1px); }
             50% { transform: translate(1px, -1px); } 75% { transform: translate(-1px, -1px); } 100% { transform: translate(0, 0); }
         }
-        .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; gap: 8px; flex-wrap: wrap; }
-        .ship-stage { display: flex; justify-content: center; align-items: center; height: 46px; position: relative; z-index: 2; }
+        .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; gap: 6px; flex-wrap: wrap; }
+        .ship-stage { display: flex; justify-content: center; align-items: center; height: 42px; position: relative; z-index: 2; }
         .merry-ship-emoji { display: inline-block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
         .merry-sea-card.sunny .merry-ship-emoji { animation: sailCalm 3s ease-in-out infinite alternate; }
         .merry-sea-card.stormy .merry-ship-emoji { animation: sailStorm 0.4s ease-in-out infinite alternate; }
@@ -125,7 +137,7 @@
         .weather-desc { text-align: center; font-size: 12px; z-index: 2; font-weight: 500; }
 
         .floating-profit {
-            position: absolute; font-weight: 700; font-size: 18px; pointer-events: none;
+            position: absolute; font-weight: 700; font-size: 16px; pointer-events: none;
             animation: floatUp 1.8s ease-out forwards; z-index: 99; text-shadow: 0 2px 4px rgba(0,0,0,0.6);
         }
         @keyframes floatUp {
@@ -134,68 +146,132 @@
             100% { opacity: 0; transform: translateY(-90px) scale(1); }
         }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
-        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+        @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; } }
         .stat-card {
             background: linear-gradient(180deg, var(--card-elevated) 0%, var(--card-bg) 100%);
-            border: 1px solid var(--border-color); border-radius: 12px; padding: 14px;
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 11px 12px;
         }
-        .stat-card h3 { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
-        .stat-card .value { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+        @media (min-width: 768px) { .stat-card { padding: 14px; } }
+        .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+        @media (min-width: 768px) { .stat-card h3 { font-size: 12px; } }
+        .stat-card .value { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+        @media (min-width: 768px) { .stat-card .value { font-size: 18px; } }
 
         .card-container {
             background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 14px; padding: 16px; margin-bottom: 16px;
+            border-radius: 14px; padding: 12px; margin-bottom: 14px;
         }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
-        .card-header h2 { font-size: 15px; font-weight: 600; color: var(--text-main); }
+        @media (min-width: 768px) { .card-container { padding: 16px; margin-bottom: 16px; } }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+        @media (min-width: 768px) { .card-header { align-items: center; } }
+        .card-header h2 { font-size: 14px; font-weight: 600; color: var(--text-main); }
+        @media (min-width: 768px) { .card-header h2 { font-size: 15px; } }
 
         .filter-toolbar {
-            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            display: flex; flex-direction: column; align-items: stretch; gap: 8px;
             background: rgba(11, 15, 25, 0.65); border: 1px solid var(--border-color);
-            padding: 9px 12px; border-radius: 10px; margin-bottom: 12px; font-size: 12px;
+            padding: 9px 10px; border-radius: 10px; margin-bottom: 12px; font-size: 12px;
         }
-        .range-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+        @media (min-width: 768px) {
+            .filter-toolbar { flex-direction: row; align-items: center; justify-content: space-between; padding: 9px 12px; }
+        }
+        .range-btns { display: flex; gap: 4px; flex-wrap: wrap; }
         .range-btn {
             background: var(--card-elevated); border: 1px solid #334155; color: #cbd5e1;
-            padding: 4px 11px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: 'Prompt', sans-serif;
+            padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer; font-family: 'Prompt', sans-serif;
             transition: all 0.15s ease;
         }
+        @media (min-width: 768px) { .range-btn { padding: 4px 11px; font-size: 12px; } }
         .range-btn:hover { border-color: var(--primary); color: #fff; }
         .range-btn.active { background: var(--primary); border-color: var(--primary); color: white; font-weight: 600; }
 
-        .date-range-inputs { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-left: auto; color: #cbd5e1; }
+        .date-range-inputs { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; color: #cbd5e1; font-size: 11px; }
+        @media (min-width: 768px) { .date-range-inputs { font-size: 12px; } }
         .date-input, .select-compact {
             background: var(--bg-color); color: var(--text-main); border: 1px solid #334155;
-            border-radius: 6px; padding: 4px 8px; font-size: 12px; font-family: 'Prompt', sans-serif; outline: none;
+            border-radius: 6px; padding: 4px 6px; font-size: 11px; font-family: 'Prompt', sans-serif; outline: none;
+            max-width: 100%;
         }
+        @media (min-width: 768px) { .date-input, .select-compact { padding: 4px 8px; font-size: 12px; } }
         .date-input:focus, .select-compact:focus { border-color: var(--primary); }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-        .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 6px; font-size: 12px; }
-        .day-cell {
-            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px;
-            min-height: 70px; padding: 7px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.15s ease;
+        /* --- กล่องสรุปชั่วโมงที่ขาดทุนสะสม --- */
+        .loss-summary-box {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
         }
+        .loss-summary-box.safe {
+            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+        .loss-summary-title {
+            font-size: 12.5px; font-weight: 700; color: #fca5a5;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+            margin-bottom: 8px;
+        }
+        .loss-summary-box.safe .loss-summary-title { color: #6ee7b7; }
+        .loss-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+        .loss-chip {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(248, 113, 113, 0.45);
+            border-radius: 8px;
+            padding: 6px 9px;
+            font-size: 11.5px;
+            font-variant-numeric: tabular-nums;
+            flex: 1 1 calc(50% - 6px);
+            min-width: 135px;
+        }
+        @media (min-width: 768px) { .loss-chip { flex: 0 1 auto; } }
+        .loss-chip-top { font-weight: 700; color: #f87171; }
+        .loss-chip-sub { font-size: 10.5px; color: #cbd5e1; margin-top: 2px; }
+        .blocked-csv-hint {
+            margin-top: 8px; font-size: 11px; color: #fde68a;
+            background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3);
+            padding: 5px 8px; border-radius: 6px; font-family: 'Prompt', sans-serif;
+            word-break: break-all;
+        }
+
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+        @media (min-width: 768px) { .calendar-grid { gap: 6px; } }
+        .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 4px 2px; font-size: 11px; }
+        @media (min-width: 768px) { .day-name { padding: 6px; font-size: 12px; } }
+        .day-cell {
+            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 6px;
+            min-height: 54px; padding: 4px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.15s ease;
+            overflow: hidden;
+        }
+        @media (min-width: 768px) { .day-cell { min-height: 70px; padding: 7px; border-radius: 8px; } }
         .day-cell:hover { border-color: var(--primary); background-color: rgba(99, 102, 241, 0.08); }
         .day-cell.selected { border: 2px solid var(--primary); background-color: rgba(99, 102, 241, 0.16); }
         .day-cell.empty { background-color: transparent; border: none; cursor: default; }
         .day-cell.today { border: 1px dashed var(--accent-gold); }
-        .day-number { font-size: 12px; font-weight: 600; color: #e2e8f0; font-variant-numeric: tabular-nums; }
-        .day-profit { font-size: 12px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+        .day-number { font-size: 10.5px; font-weight: 600; color: #e2e8f0; font-variant-numeric: tabular-nums; }
+        @media (min-width: 768px) { .day-number { font-size: 12px; } }
+        .day-profit { font-size: 10px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; line-height: 1.2; }
+        @media (min-width: 768px) { .day-profit { font-size: 12px; } }
         .profit-pos { color: #34d399; }
         .profit-neg { color: #f87171; }
         .profit-zero { color: var(--text-muted); }
-        .live-tag { font-size: 9px; background: var(--primary); color: white; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+        .live-tag { font-size: 8px; background: var(--primary); color: white; padding: 1px 4px; border-radius: 3px; font-weight: 600; }
 
-        .nav-btn { padding: 5px 11px; background: var(--card-elevated); border: 1px solid #334155; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 12px; }
+        .nav-btn { padding: 4px 9px; background: var(--card-elevated); border: 1px solid #334155; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 12px; }
         .nav-btn:hover { background: var(--primary); border-color: var(--primary); }
 
-        .trade-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; font-variant-numeric: tabular-nums; }
-        .trade-table th, .trade-table td { padding: 9px 11px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
-        .trade-table th { color: #cbd5e1; font-weight: 600; background-color: rgba(11, 15, 25, 0.55); font-size: 12px; }
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .trade-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left; font-variant-numeric: tabular-nums; }
+        @media (min-width: 768px) { .trade-table { font-size: 13px; } }
+        .trade-table th, .trade-table td { padding: 7px 6px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        @media (min-width: 768px) { .trade-table th, .trade-table td { padding: 9px 11px; } }
+        .trade-table th { color: #cbd5e1; font-weight: 600; background-color: rgba(11, 15, 25, 0.55); font-size: 11px; }
+        @media (min-width: 768px) { .trade-table th { font-size: 12px; } }
         .trade-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.02); }
-        .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #cbd5e1; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 6px 10px; border-radius: 8px; }
+        .status-pill { padding: 2px 6px; border-radius: 5px; font-weight: 600; font-size: 10.5px; display: inline-block; }
+        @media (min-width: 768px) { .status-pill { padding: 3px 8px; font-size: 12px; } }
+        .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #cbd5e1; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 6px 10px; border-radius: 8px; gap: 8px; flex-wrap: wrap; }
         .reset-filter-btn { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); padding: 3px 9px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; }
     </style>
 </head>
@@ -235,7 +311,7 @@
             <div class="character-name" id="char-name">🏴‍☠️ กำลังโหลด...</div>
             <div class="character-dialog" id="char-dialog">"กำลังเตรียมออกเรือ..."</div>
         </div>
-        <div id="float-origin" style="position: absolute; right: 40px; bottom: 20px;"></div>
+        <div id="float-origin" style="position: absolute; right: 20px; bottom: 16px;"></div>
     </div>
 
     <div class="merry-sea-card sunny" id="merry-card">
@@ -244,7 +320,7 @@
             <span id="merry-status-text">ท้องฟ้าแจ่มใส คลื่นลมสงบ</span>
         </div>
         <div class="ship-stage">
-            <div class="merry-ship-emoji" id="merry-ship-icon" style="font-size: 36px;">⛵</div>
+            <div class="merry-ship-emoji" id="merry-ship-icon" style="font-size: 34px;">⛵</div>
         </div>
         <div class="weather-desc" id="merry-weather-desc">สถานะพอร์ตปกติ ล่องเรือรับลมสบาย ๆ</div>
     </div>
@@ -290,7 +366,7 @@
                 <input type="date" id="custom-end-date" class="date-input" onchange="applyCustomDateRange()">
             </div>
         </div>
-        <div style="position: relative; height: 225px; width: 100%;">
+        <div style="position: relative; height: 215px; width: 100%;">
             <canvas id="growthChart"></canvas>
         </div>
     </div>
@@ -315,11 +391,11 @@
         </div>
     </div>
 
-    <!-- สรุปกำไร-ขาดทุนรายชั่วโมง -->
+    <!-- สรุปกำไร-ขาดทุนรายชั่วโมง + กล่องสรุปชั่วโมงที่ขาดทุนสะสม -->
     <div class="card-container">
         <div class="card-header">
-            <h2>⏰ สรุปกำไร-ขาดทุนรายชั่วโมง (Server Time vs เวลาไทย GMT+7)</h2>
-            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <h2>⏰ สรุปกำไร-ขาดทุนรายชั่วโมง (Server vs ไทย GMT+7)</h2>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <span id="hourly-period-label" class="num-tabular" style="font-size: 12px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
                 <label style="font-size: 12px; color: #cbd5e1;">
                     Server GMT:
@@ -332,16 +408,29 @@
                 </label>
             </div>
         </div>
-        <div style="overflow-x: auto;">
+
+        <!-- กล่องสรุปชั่วโมงที่ขาดทุนสะสม -->
+        <div id="losing-hours-summary" class="loss-summary-box">
+            <div class="loss-summary-title">
+                <span>⚠️ สรุปชั่วโมงที่ขาดทุนสะสม (ควรงดเปิดไม้ใหม่)</span>
+                <span id="losing-hours-total" class="num-tabular">-</span>
+            </div>
+            <div id="losing-hours-chips" class="loss-chips">
+                <span style="font-size: 12px; color: var(--text-muted);">กำลังประมวลผล...</span>
+            </div>
+            <div id="blocked-hours-csv-box" class="blocked-csv-hint" style="display: none;"></div>
+        </div>
+
+        <div class="table-responsive">
             <table class="trade-table">
                 <thead>
                     <tr>
-                        <th>ชั่วโมง Server / เวลาไทย (GMT+7)</th>
-                        <th style="text-align: center;">จำนวนไม้</th>
-                        <th style="text-align: center;">ชนะ / แพ้</th>
-                        <th style="text-align: center;">Win Rate</th>
-                        <th style="text-align: right;">กำไร/ขาดทุนรวม</th>
-                        <th style="text-align: center;">สถานะช่วงเวลา</th>
+                        <th>Server / เวลาไทย (GMT+7)</th>
+                        <th style="text-align: center;">ไม้</th>
+                        <th style="text-align: center;">W / L</th>
+                        <th style="text-align: center;">Win %</th>
+                        <th style="text-align: right;">กำไร/ขาดทุน</th>
+                        <th style="text-align: center;">สถานะ</th>
                     </tr>
                 </thead>
                 <tbody id="hourly-pnl-tbody">
@@ -360,7 +449,7 @@
             <span id="filter-text">แสดงผลเฉพาะวันที่: -</span>
             <button class="reset-filter-btn" onclick="resetDateFilter()">แสดงทั้งหมด</button>
         </div>
-        <div style="overflow-x: auto;">
+        <div class="table-responsive">
             <table class="trade-table">
                 <thead>
                     <tr>
@@ -742,12 +831,54 @@
             .catch(err => console.error('Error changing PIN:', err));
         }
 
+        function renderLosingHoursSummary(activeHours, serverGmt, thaiGmt) {
+            const box = document.getElementById('losing-hours-summary');
+            const totalEl = document.getElementById('losing-hours-total');
+            const chipsEl = document.getElementById('losing-hours-chips');
+            const csvBox = document.getElementById('blocked-hours-csv-box');
+            if (!box || !totalEl || !chipsEl || !csvBox) return;
+
+            const losingHours = activeHours.filter(item => item.pnl < 0);
+
+            if (losingHours.length === 0) {
+                box.className = 'loss-summary-box safe';
+                totalEl.innerText = '0 ชั่วโมงติดลบ';
+                totalEl.style.color = '#6ee7b7';
+                chipsEl.innerHTML = `<span style="font-size: 12px; color: #a7f3d0;">✅ ยังไม่พบชั่วโมงที่ขาดทุนสะสมในช่วงเวลาที่เลือก</span>`;
+                csvBox.style.display = 'none';
+                return;
+            }
+
+            box.className = 'loss-summary-box';
+            const sumLoss = losingHours.reduce((acc, cur) => acc + cur.pnl, 0);
+            totalEl.innerText = `${losingHours.length} ช่วงเวลา | รวม -$${Math.abs(sumLoss).toFixed(2)}`;
+            totalEl.style.color = '#fca5a5';
+
+            chipsEl.innerHTML = losingHours.map(item => {
+                const srvHr = String(item.hour).padStart(2, '0');
+                const thaiHour = (((item.hour - serverGmt + thaiGmt) % 24) + 24) % 24;
+                const thHr = String(thaiHour).padStart(2, '0');
+                const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(1) : '0.0';
+                return `
+                    <div class="loss-chip">
+                        <div class="loss-chip-top">Server ${srvHr}:00 → -$${Math.abs(item.pnl).toFixed(2)}</div>
+                        <div class="loss-chip-sub">🇹🇭 ${thHr}:00-${thHr}:59 • ${item.trades} ไม้ (${winRate}%)</div>
+                    </div>
+                `;
+            }).join('');
+
+            const csvValue = losingHours.map(item => item.hour).join(',');
+            csvBox.style.display = 'block';
+            csvBox.innerHTML = `💡 <b>ค่าแนะนำสำหรับ BlockedHoursCSV (อิงเวลา Server):</b> <code>${csvValue}</code>`;
+        }
+
         function buildHourlyBreakdown(deals) {
             const tbody = document.getElementById('hourly-pnl-tbody');
             if (!tbody) return;
 
             if (!deals || deals.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 14px;">ไม่มีประวัติออเดอร์ในช่วงเวลาที่เลือก</td></tr>`;
+                renderLosingHoursSummary([], 2, 7);
                 return;
             }
 
@@ -778,6 +909,8 @@
                 .filter(item => item.trades > 0)
                 .sort((a, b) => a.pnl - b.pnl);
 
+            renderLosingHoursSummary(activeHours, serverGmt, thaiGmt);
+
             if (activeHours.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 14px;">ไม่มีข้อมูลการเทรดที่เข้าเงื่อนไข</td></tr>`;
                 return;
@@ -786,33 +919,33 @@
             let html = '';
             activeHours.forEach(item => {
                 const srvStart = String(item.hour).padStart(2, '0');
-                const srvLabel = `Server ${srvStart}:00 - ${srvStart}:59`;
+                const srvLabel = `Srv ${srvStart}:00-${srvStart}:59`;
 
                 const thaiHour = (((item.hour - serverGmt + thaiGmt) % 24) + 24) % 24;
                 const thStart = String(thaiHour).padStart(2, '0');
-                const thLabel = `🇹🇭 ${thStart}:00 - ${thStart}:59`;
+                const thLabel = `🇹🇭 ${thStart}:00-${thStart}:59`;
 
                 const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(1) : '0.0';
                 const pnlClass = item.pnl > 0 ? 'profit-pos' : (item.pnl < 0 ? 'profit-neg' : 'profit-zero');
                 const pnlFormatted = `${item.pnl >= 0 ? '+' : ''}$${item.pnl.toFixed(2)}`;
 
-                let statusBadge = `<span style="color: var(--text-muted);">ทรงตัว</span>`;
+                let statusBadge = `<span class="status-pill" style="color: var(--text-muted); background: rgba(148,163,184,0.12);">ทรงตัว</span>`;
                 let rowStyle = '';
                 if (item.pnl < 0) {
-                    statusBadge = `<span style="background: rgba(239, 68, 68, 0.16); color: #f87171; padding: 3px 8px; border-radius: 5px; font-weight: 600;">⚠️ ขาดทุนสะสม</span>`;
+                    statusBadge = `<span class="status-pill" style="background: rgba(239, 68, 68, 0.16); color: #f87171;">⚠️ ขาดทุนสะสม</span>`;
                     rowStyle = `style="background: rgba(239, 68, 68, 0.05);"`;
                 } else if (item.pnl > 0) {
-                    statusBadge = `<span style="background: rgba(16, 185, 129, 0.16); color: #34d399; padding: 3px 8px; border-radius: 5px; font-weight: 600;">✅ ทำกำไร</span>`;
+                    statusBadge = `<span class="status-pill" style="background: rgba(16, 185, 129, 0.16); color: #34d399;">✅ ทำกำไร</span>`;
                 }
 
                 html += `
                     <tr ${rowStyle}>
                         <td>
                             <div style="font-weight: 600;">${srvLabel}</div>
-                            <div style="font-size: 11px; color: #93c5fd;">เวลาไทย: ${thLabel}</div>
+                            <div style="font-size: 10.5px; color: #93c5fd;">${thLabel}</div>
                         </td>
                         <td style="text-align: center;">${item.trades}</td>
-                        <td style="text-align: center;">${item.wins}W / ${item.losses}L</td>
+                        <td style="text-align: center;">${item.wins}W/${item.losses}L</td>
                         <td style="text-align: center;">${winRate}%</td>
                         <td class="${pnlClass}" style="font-weight: 700; text-align: right;">${pnlFormatted}</td>
                         <td style="text-align: center;">${statusBadge}</td>
@@ -914,7 +1047,7 @@
                             borderWidth: 2,
                             fill: true,
                             tension: 0.2,
-                            pointRadius: 2.5,
+                            pointRadius: 2,
                             pointBackgroundColor: '#818cf8'
                         }]
                     },
@@ -922,8 +1055,8 @@
                         responsive: true, maintainAspectRatio: false, animation: false,
                         plugins: { legend: { display: false } },
                         scales: {
-                            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 11 }, maxRotation: 25, autoSkip: true, maxTicksLimit: 10 } },
-                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 11 } } }
+                            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 10 }, maxRotation: 25, autoSkip: true, maxTicksLimit: 8 } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 10 } } }
                         }
                     }
                 });
@@ -935,7 +1068,7 @@
             const headers = grid.innerHTML.substring(0, grid.innerHTML.indexOf('</div></div>') + 12);
             let html = headers;
 
-            document.getElementById('calendar-month-year').innerText = `ปฏิทินผลการเทรดรายวัน (${monthNames[currentMonth]} ${currentYear + 543})`;
+            document.getElementById('calendar-month-year').innerText = `ปฏิทินผลการเทรด (${monthNames[currentMonth]} ${currentYear + 543})`;
 
             let dailyProfits = {};
             let monthlyTotal = 0;
@@ -977,7 +1110,7 @@
 
                 html += `
                     <div class="${cellClass}" onclick="filterByDate('${dateKey}')">
-                        <div style="display:flex; justify-content:space-between; width:100%;">
+                        <div style="display:flex; justify-content:space-between; width:100%; align-items:center; gap:2px;">
                             <span class="day-number">${day}</span>
                             ${isToday ? '<span class="live-tag">LIVE</span>' : ''}
                         </div>
