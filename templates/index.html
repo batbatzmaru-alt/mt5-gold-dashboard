@@ -24,7 +24,7 @@
         body {
             background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%), var(--bg-color);
             color: var(--text-main);
-            padding: 12px;
+            padding: 10px;
             font-size: 13px;
             line-height: 1.45;
             position: relative;
@@ -37,11 +37,11 @@
 
         header {
             display: flex; flex-direction: column; align-items: stretch;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             background: rgba(19, 27, 46, 0.92);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            padding: 12px 14px;
+            padding: 12px;
             gap: 10px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         }
@@ -118,8 +118,8 @@
         .character-dialog { font-size: 12px; color: var(--text-main); margin-top: 2px; word-wrap: break-word; }
 
         .merry-sea-card {
-            border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; position: relative; overflow: hidden;
-            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 104px; display: flex; flex-direction: column; justify-content: space-between;
+            border-radius: 14px; padding: 12px 14px; margin-bottom: 12px; position: relative; overflow: hidden;
+            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 100px; display: flex; flex-direction: column; justify-content: space-between;
         }
         .merry-sea-card.sunny { background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a); }
         .merry-sea-card.stormy { background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a); animation: shakeCard 0.5s infinite; }
@@ -128,7 +128,7 @@
             50% { transform: translate(1px, -1px); } 75% { transform: translate(-1px, -1px); } 100% { transform: translate(0, 0); }
         }
         .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; gap: 6px; flex-wrap: wrap; }
-        .ship-stage { display: flex; justify-content: center; align-items: center; height: 42px; position: relative; z-index: 2; }
+        .ship-stage { display: flex; justify-content: center; align-items: center; height: 40px; position: relative; z-index: 2; }
         .merry-ship-emoji { display: inline-block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
         .merry-sea-card.sunny .merry-ship-emoji { animation: sailCalm 3s ease-in-out infinite alternate; }
         .merry-sea-card.stormy .merry-ship-emoji { animation: sailStorm 0.4s ease-in-out infinite alternate; }
@@ -146,32 +146,32 @@
             100% { opacity: 0; transform: translateY(-90px) scale(1); }
         }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
         @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; } }
         .stat-card {
             background: linear-gradient(180deg, var(--card-elevated) 0%, var(--card-bg) 100%);
-            border: 1px solid var(--border-color); border-radius: 12px; padding: 11px 12px;
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 10px 12px;
         }
         @media (min-width: 768px) { .stat-card { padding: 14px; } }
-        .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+        .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 3px; }
         @media (min-width: 768px) { .stat-card h3 { font-size: 12px; } }
         .stat-card .value { font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
         @media (min-width: 768px) { .stat-card .value { font-size: 18px; } }
 
         .card-container {
             background-color: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 14px; padding: 12px; margin-bottom: 14px;
+            border-radius: 14px; padding: 11px; margin-bottom: 12px;
         }
         @media (min-width: 768px) { .card-container { padding: 16px; margin-bottom: 16px; } }
-        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        @media (min-width: 768px) { .card-header { align-items: center; } }
-        .card-header h2 { font-size: 14px; font-weight: 600; color: var(--text-main); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; flex-wrap: wrap; gap: 6px; }
+        @media (min-width: 768px) { .card-header { align-items: center; margin-bottom: 12px; } }
+        .card-header h2 { font-size: 13.5px; font-weight: 600; color: var(--text-main); }
         @media (min-width: 768px) { .card-header h2 { font-size: 15px; } }
 
         .filter-toolbar {
             display: flex; flex-direction: column; align-items: stretch; gap: 8px;
             background: rgba(11, 15, 25, 0.65); border: 1px solid var(--border-color);
-            padding: 9px 10px; border-radius: 10px; margin-bottom: 12px; font-size: 12px;
+            padding: 8px 10px; border-radius: 10px; margin-bottom: 10px; font-size: 12px;
         }
         @media (min-width: 768px) {
             .filter-toolbar { flex-direction: row; align-items: center; justify-content: space-between; padding: 9px 12px; }
@@ -196,20 +196,34 @@
         @media (min-width: 768px) { .date-input, .select-compact { padding: 4px 8px; font-size: 12px; } }
         .date-input:focus, .select-compact:focus { border-color: var(--primary); }
 
-        /* --- กล่องสรุปชั่วโมงที่ขาดทุนสะสม --- */
+        /* กรอบกราฟแบบเต็มพื้นที่บนมือถือ */
+        .chart-stage {
+            position: relative;
+            height: 255px;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.55) 0%, rgba(11, 15, 25, 0.25) 100%);
+            border: 1px solid rgba(51, 65, 85, 0.45);
+            border-radius: 10px;
+            padding: 6px 4px 2px 2px;
+        }
+        @media (min-width: 768px) {
+            .chart-stage { height: 280px; padding: 10px; }
+        }
+
+        /* กล่องสรุปชั่วโมงที่ขาดทุนสะสม */
         .loss-summary-box {
             background: rgba(239, 68, 68, 0.08);
             border: 1px solid rgba(239, 68, 68, 0.35);
             border-radius: 10px;
-            padding: 10px 12px;
-            margin-bottom: 12px;
+            padding: 9px 10px;
+            margin-bottom: 10px;
         }
         .loss-summary-box.safe {
             background: rgba(16, 185, 129, 0.08);
             border-color: rgba(16, 185, 129, 0.35);
         }
         .loss-summary-title {
-            font-size: 12.5px; font-weight: 700; color: #fca5a5;
+            font-size: 12px; font-weight: 700; color: #fca5a5;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px;
             margin-bottom: 8px;
         }
@@ -219,20 +233,19 @@
             background: rgba(15, 23, 42, 0.85);
             border: 1px solid rgba(248, 113, 113, 0.45);
             border-radius: 8px;
-            padding: 6px 9px;
-            font-size: 11.5px;
+            padding: 6px 8px;
+            font-size: 11px;
             font-variant-numeric: tabular-nums;
             flex: 1 1 calc(50% - 6px);
-            min-width: 135px;
+            min-width: 125px;
         }
-        @media (min-width: 768px) { .loss-chip { flex: 0 1 auto; } }
+        @media (min-width: 768px) { .loss-chip { flex: 0 1 auto; font-size: 11.5px; } }
         .loss-chip-top { font-weight: 700; color: #f87171; }
-        .loss-chip-sub { font-size: 10.5px; color: #cbd5e1; margin-top: 2px; }
+        .loss-chip-sub { font-size: 10px; color: #cbd5e1; margin-top: 2px; }
         .blocked-csv-hint {
             margin-top: 8px; font-size: 11px; color: #fde68a;
             background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3);
-            padding: 5px 8px; border-radius: 6px; font-family: 'Prompt', sans-serif;
-            word-break: break-all;
+            padding: 5px 8px; border-radius: 6px; word-break: break-all;
         }
 
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
@@ -261,15 +274,16 @@
         .nav-btn { padding: 4px 9px; background: var(--card-elevated); border: 1px solid #334155; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 12px; }
         .nav-btn:hover { background: var(--primary); border-color: var(--primary); }
 
+        /* ตารางสเกลพอดีจอมือถือ */
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .trade-table { width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left; font-variant-numeric: tabular-nums; }
+        .trade-table { width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: left; font-variant-numeric: tabular-nums; }
         @media (min-width: 768px) { .trade-table { font-size: 13px; } }
-        .trade-table th, .trade-table td { padding: 7px 6px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        .trade-table th, .trade-table td { padding: 6px 4px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
         @media (min-width: 768px) { .trade-table th, .trade-table td { padding: 9px 11px; } }
-        .trade-table th { color: #cbd5e1; font-weight: 600; background-color: rgba(11, 15, 25, 0.55); font-size: 11px; }
+        .trade-table th { color: #cbd5e1; font-weight: 600; background-color: rgba(11, 15, 25, 0.65); font-size: 10px; }
         @media (min-width: 768px) { .trade-table th { font-size: 12px; } }
         .trade-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.02); }
-        .status-pill { padding: 2px 6px; border-radius: 5px; font-weight: 600; font-size: 10.5px; display: inline-block; }
+        .status-pill { padding: 2px 5px; border-radius: 5px; font-weight: 600; font-size: 9.5px; display: inline-block; }
         @media (min-width: 768px) { .status-pill { padding: 3px 8px; font-size: 12px; } }
         .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #cbd5e1; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 6px 10px; border-radius: 8px; gap: 8px; flex-wrap: wrap; }
         .reset-filter-btn { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); padding: 3px 9px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; }
@@ -348,7 +362,7 @@
     <div class="card-container">
         <div class="card-header">
             <h2>📈 กราฟความเติบโต (Growth Curve)</h2>
-            <span id="chart-period-label" class="num-tabular" style="font-size: 12px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
+            <span id="chart-period-label" class="num-tabular" style="font-size: 11.5px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
         </div>
         <div class="filter-toolbar">
             <div class="range-btns">
@@ -366,7 +380,7 @@
                 <input type="date" id="custom-end-date" class="date-input" onchange="applyCustomDateRange()">
             </div>
         </div>
-        <div style="position: relative; height: 215px; width: 100%;">
+        <div class="chart-stage">
             <canvas id="growthChart"></canvas>
         </div>
     </div>
@@ -395,15 +409,15 @@
     <div class="card-container">
         <div class="card-header">
             <h2>⏰ สรุปกำไร-ขาดทุนรายชั่วโมง (Server vs ไทย GMT+7)</h2>
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span id="hourly-period-label" class="num-tabular" style="font-size: 12px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
-                <label style="font-size: 12px; color: #cbd5e1;">
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span id="hourly-period-label" class="num-tabular" style="font-size: 11px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
+                <label style="font-size: 11px; color: #cbd5e1;">
                     Server GMT:
                     <select id="server-gmt-offset" class="select-compact" onchange="renderDashboard()">
-                        <option value="2" selected>GMT+2 (Winter)</option>
-                        <option value="3">GMT+3 (DST / Summer)</option>
-                        <option value="0">GMT+0 (UTC)</option>
-                        <option value="7">GMT+7 (เวลาไทย)</option>
+                        <option value="2" selected>GMT+2</option>
+                        <option value="3">GMT+3</option>
+                        <option value="0">GMT+0</option>
+                        <option value="7">GMT+7</option>
                     </select>
                 </label>
             </div>
@@ -412,7 +426,7 @@
         <!-- กล่องสรุปชั่วโมงที่ขาดทุนสะสม -->
         <div id="losing-hours-summary" class="loss-summary-box">
             <div class="loss-summary-title">
-                <span>⚠️ สรุปชั่วโมงที่ขาดทุนสะสม (ควรงดเปิดไม้ใหม่)</span>
+                <span>⚠️ ชั่วโมงขาดทุนสะสม (ควรงดเทรด)</span>
                 <span id="losing-hours-total" class="num-tabular">-</span>
             </div>
             <div id="losing-hours-chips" class="loss-chips">
@@ -425,10 +439,10 @@
             <table class="trade-table">
                 <thead>
                     <tr>
-                        <th>Server / เวลาไทย (GMT+7)</th>
+                        <th>Srv / ไทย (GMT+7)</th>
                         <th style="text-align: center;">ไม้</th>
-                        <th style="text-align: center;">W / L</th>
-                        <th style="text-align: center;">Win %</th>
+                        <th style="text-align: center;">W/L</th>
+                        <th style="text-align: center;">Win%</th>
                         <th style="text-align: right;">กำไร/ขาดทุน</th>
                         <th style="text-align: center;">สถานะ</th>
                     </tr>
@@ -453,7 +467,7 @@
             <table class="trade-table">
                 <thead>
                     <tr>
-                        <th>วันและเวลาปิด</th>
+                        <th>วัน/เวลาปิด</th>
                         <th>Ticket</th>
                         <th>คู่เงิน</th>
                         <th>ประเภท</th>
@@ -502,6 +516,15 @@
             const hh = String(d.getHours()).padStart(2, '0');
             const min = String(d.getMinutes()).padStart(2, '0');
             return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+        }
+
+        function formatMobileDateTime(epochSec) {
+            const d = new Date(epochSec * 1000);
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const hh = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            return `${dd}/${mm} ${hh}:${min}`;
         }
 
         function fetchData() {
@@ -851,7 +874,7 @@
 
             box.className = 'loss-summary-box';
             const sumLoss = losingHours.reduce((acc, cur) => acc + cur.pnl, 0);
-            totalEl.innerText = `${losingHours.length} ช่วงเวลา | รวม -$${Math.abs(sumLoss).toFixed(2)}`;
+            totalEl.innerText = `${losingHours.length} ช่วง | -$${Math.abs(sumLoss).toFixed(2)}`;
             totalEl.style.color = '#fca5a5';
 
             chipsEl.innerHTML = losingHours.map(item => {
@@ -861,7 +884,7 @@
                 const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(1) : '0.0';
                 return `
                     <div class="loss-chip">
-                        <div class="loss-chip-top">Server ${srvHr}:00 → -$${Math.abs(item.pnl).toFixed(2)}</div>
+                        <div class="loss-chip-top">Srv ${srvHr}:00 → -$${Math.abs(item.pnl).toFixed(2)}</div>
                         <div class="loss-chip-sub">🇹🇭 ${thHr}:00-${thHr}:59 • ${item.trades} ไม้ (${winRate}%)</div>
                     </div>
                 `;
@@ -869,7 +892,7 @@
 
             const csvValue = losingHours.map(item => item.hour).join(',');
             csvBox.style.display = 'block';
-            csvBox.innerHTML = `💡 <b>ค่าแนะนำสำหรับ BlockedHoursCSV (อิงเวลา Server):</b> <code>${csvValue}</code>`;
+            csvBox.innerHTML = `💡 <b>BlockedHoursCSV (Server):</b> <code>${csvValue}</code>`;
         }
 
         function buildHourlyBreakdown(deals) {
@@ -919,33 +942,33 @@
             let html = '';
             activeHours.forEach(item => {
                 const srvStart = String(item.hour).padStart(2, '0');
-                const srvLabel = `Srv ${srvStart}:00-${srvStart}:59`;
+                const srvLabel = `Srv ${srvStart}:00`;
 
                 const thaiHour = (((item.hour - serverGmt + thaiGmt) % 24) + 24) % 24;
                 const thStart = String(thaiHour).padStart(2, '0');
-                const thLabel = `🇹🇭 ${thStart}:00-${thStart}:59`;
+                const thLabel = `🇹🇭 ${thStart}:00`;
 
-                const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(1) : '0.0';
+                const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(0) : '0';
                 const pnlClass = item.pnl > 0 ? 'profit-pos' : (item.pnl < 0 ? 'profit-neg' : 'profit-zero');
                 const pnlFormatted = `${item.pnl >= 0 ? '+' : ''}$${item.pnl.toFixed(2)}`;
 
                 let statusBadge = `<span class="status-pill" style="color: var(--text-muted); background: rgba(148,163,184,0.12);">ทรงตัว</span>`;
                 let rowStyle = '';
                 if (item.pnl < 0) {
-                    statusBadge = `<span class="status-pill" style="background: rgba(239, 68, 68, 0.16); color: #f87171;">⚠️ ขาดทุนสะสม</span>`;
+                    statusBadge = `<span class="status-pill" style="background: rgba(239, 68, 68, 0.16); color: #f87171;">⚠️ ขาดทุน</span>`;
                     rowStyle = `style="background: rgba(239, 68, 68, 0.05);"`;
                 } else if (item.pnl > 0) {
-                    statusBadge = `<span class="status-pill" style="background: rgba(16, 185, 129, 0.16); color: #34d399;">✅ ทำกำไร</span>`;
+                    statusBadge = `<span class="status-pill" style="background: rgba(16, 185, 129, 0.16); color: #34d399;">✅ กำไร</span>`;
                 }
 
                 html += `
                     <tr ${rowStyle}>
                         <td>
                             <div style="font-weight: 600;">${srvLabel}</div>
-                            <div style="font-size: 10.5px; color: #93c5fd;">${thLabel}</div>
+                            <div style="font-size: 9.5px; color: #93c5fd;">${thLabel}</div>
                         </td>
                         <td style="text-align: center;">${item.trades}</td>
-                        <td style="text-align: center;">${item.wins}W/${item.losses}L</td>
+                        <td style="text-align: center;">${item.wins}/${item.losses}</td>
                         <td style="text-align: center;">${winRate}%</td>
                         <td class="${pnlClass}" style="font-weight: 700; text-align: right;">${pnlFormatted}</td>
                         <td style="text-align: center;">${statusBadge}</td>
@@ -978,10 +1001,11 @@
 
             let sortedDeals = [...filteredDeals].sort((a, b) => b.time - a.time);
             let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 15);
+            const isMobile = window.innerWidth < 768;
 
             let html = '';
             displayDeals.forEach(deal => {
-                let timeStr = formatDateTimeFull(deal.time);
+                let timeStr = isMobile ? formatMobileDateTime(deal.time) : formatDateTimeFull(deal.time);
                 let profitClass = deal.profit >= 0 ? 'profit-pos' : 'profit-neg';
                 let profitFormatted = `${deal.profit >= 0 ? '+' : ''}$${deal.profit.toFixed(2)}`;
                 let typeColor = deal.type === 'BUY' ? 'color: #34d399;' : 'color: #f87171;';
@@ -992,7 +1016,7 @@
                         <td>${deal.ticket}</td>
                         <td><b>${deal.symbol}</b></td>
                         <td><span style="${typeColor} font-weight: 600;">${deal.type}</span></td>
-                        <td>${deal.volume}</td>
+                        <td>${Number(deal.volume).toFixed(2)}</td>
                         <td class="${profitClass}" style="font-weight: 700; text-align: right;">${profitFormatted}</td>
                     </tr>
                 `;
@@ -1001,7 +1025,8 @@
         }
 
         function buildChart(allDeals, filteredDeals, currentBalance) {
-            const ctx = document.getElementById('growthChart').getContext('2d');
+            const canvas = document.getElementById('growthChart');
+            const ctx = canvas.getContext('2d');
             let sortedAll = [...allDeals].sort((a, b) => a.time - b.time);
             let sortedFiltered = [...filteredDeals].sort((a, b) => a.time - b.time);
 
@@ -1016,23 +1041,36 @@
                 }
             }
 
-            let labels = [`เริ่ม (${sortedFiltered.length > 0 ? formatDateTimeFull(sortedFiltered[0].time) : 'เริ่มต้น'})`];
+            const isMobile = window.innerWidth < 768;
+            let labels = [isMobile ? 'เริ่ม' : `เริ่ม (${sortedFiltered.length > 0 ? formatDateTimeFull(sortedFiltered[0].time) : 'เริ่มต้น'})`];
             let balanceData = [runningBalance];
 
             sortedFiltered.forEach(deal => {
                 runningBalance += deal.profit;
-                labels.push(formatDateTimeFull(deal.time));
+                labels.push(isMobile ? formatMobileDateTime(deal.time) : formatDateTimeFull(deal.time));
                 balanceData.push(runningBalance);
             });
 
             if (sortedFiltered.length === 0) {
-                labels.push(`ปัจจุบัน (${formatDateTimeFull(Math.floor(Date.now()/1000))})`);
+                labels.push(isMobile ? 'ปัจจุบัน' : `ปัจจุบัน (${formatDateTimeFull(Math.floor(Date.now()/1000))})`);
                 balanceData.push(currentBalance);
             }
+
+            const gradFill = ctx.createLinearGradient(0, 0, 0, canvas.clientHeight || 255);
+            gradFill.addColorStop(0, 'rgba(99, 102, 241, 0.34)');
+            gradFill.addColorStop(0.65, 'rgba(99, 102, 241, 0.08)');
+            gradFill.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
+
+            const showPoints = balanceData.length <= 35;
+            const pointRadius = showPoints ? (isMobile ? 2 : 3) : 0;
 
             if (growthChart) {
                 growthChart.data.labels = labels;
                 growthChart.data.datasets[0].data = balanceData;
+                growthChart.data.datasets[0].backgroundColor = gradFill;
+                growthChart.data.datasets[0].pointRadius = pointRadius;
+                growthChart.options.scales.x.ticks.maxRotation = isMobile ? 0 : 25;
+                growthChart.options.scales.x.ticks.maxTicksLimit = isMobile ? 4 : 9;
                 growthChart.update('none'); 
             } else {
                 growthChart = new Chart(ctx, {
@@ -1042,21 +1080,67 @@
                         datasets: [{
                             label: 'Balance ($)',
                             data: balanceData,
-                            borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.14)',
-                            borderWidth: 2,
+                            borderColor: '#818cf8',
+                            backgroundColor: gradFill,
+                            borderWidth: isMobile ? 2.2 : 2.5,
                             fill: true,
-                            tension: 0.2,
-                            pointRadius: 2,
-                            pointBackgroundColor: '#818cf8'
+                            tension: 0.25,
+                            pointRadius: pointRadius,
+                            pointHoverRadius: 5,
+                            pointBackgroundColor: '#a5b4fc',
+                            pointBorderColor: '#0b0f19',
+                            pointBorderWidth: 1.5
                         }]
                     },
                     options: {
-                        responsive: true, maintainAspectRatio: false, animation: false,
-                        plugins: { legend: { display: false } },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        animation: false,
+                        interaction: { mode: 'index', intersect: false },
+                        layout: {
+                            padding: {
+                                top: 6,
+                                right: isMobile ? 8 : 14,
+                                left: 0,
+                                bottom: 0
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                                titleColor: '#f8fafc',
+                                bodyColor: '#cbd5e1',
+                                borderColor: '#334155',
+                                borderWidth: 1,
+                                padding: 8,
+                                displayColors: false,
+                                callbacks: {
+                                    label: (item) => `Balance: $${Number(item.parsed.y).toFixed(2)}`
+                                }
+                            }
+                        },
                         scales: {
-                            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 10 }, maxRotation: 25, autoSkip: true, maxTicksLimit: 8 } },
-                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 10 } } }
+                            x: {
+                                grid: { color: 'rgba(148, 163, 184, 0.08)' },
+                                ticks: {
+                                    color: '#cbd5e1',
+                                    font: { family: 'Prompt', size: isMobile ? 9.5 : 11 },
+                                    maxRotation: isMobile ? 0 : 25,
+                                    minRotation: 0,
+                                    autoSkip: true,
+                                    maxTicksLimit: isMobile ? 4 : 9
+                                }
+                            },
+                            y: {
+                                grid: { color: 'rgba(148, 163, 184, 0.08)' },
+                                ticks: {
+                                    color: '#cbd5e1',
+                                    font: { family: 'Prompt', size: isMobile ? 10 : 11 },
+                                    maxTicksLimit: 6,
+                                    callback: (val) => `$${val}`
+                                }
+                            }
                         }
                     }
                 });
