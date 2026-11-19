@@ -10,80 +10,104 @@
         :root {
             --bg-color: #0b0f19;
             --card-bg: #131b2e;
-            --border-color: #1e293b;
+            --card-elevated: #172036;
+            --border-color: #243049;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --profit-color: #10b981;
             --loss-color: #ef4444;
             --primary: #6366f1;
+            --accent-gold: #fbbf24;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Prompt', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); padding: 12px; position: relative; overflow-x: hidden; }
+        body {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 40%), var(--bg-color);
+            color: var(--text-main);
+            padding: 16px;
+            font-size: 13px;
+            line-height: 1.5;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .num-tabular { font-variant-numeric: tabular-nums; }
 
         header {
             display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 16px; border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px; flex-wrap: wrap; gap: 10px;
+            margin-bottom: 16px;
+            background: rgba(19, 27, 46, 0.9);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px 16px;
+            flex-wrap: wrap; gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         }
 
-        .logo h1 { font-size: 15px; font-weight: 600; color: #fbbf24; }
+        .logo h1 { font-size: 17px; font-weight: 700; color: var(--accent-gold); letter-spacing: 0.2px; }
+        .logo p { font-size: 11px; color: var(--text-muted); }
         
         .header-controls { 
-            display: flex; align-items: center; gap: 6px; flex-wrap: wrap; 
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap; 
+        }
+
+        .control-divider {
+            width: 1px; height: 22px; background: var(--border-color); margin: 0 2px;
         }
 
         .account-selector {
-            background: var(--card-bg); color: var(--text-main);
-            border: 1px solid var(--border-color); padding: 5px 8px;
-            border-radius: 6px; font-size: 11px; outline: none; cursor: pointer;
+            background: var(--bg-color); color: var(--text-main);
+            border: 1px solid #334155; padding: 6px 10px;
+            border-radius: 8px; font-size: 12px; outline: none; cursor: pointer;
         }
 
         .status-badge {
-            display: flex; align-items: center; gap: 5px;
-            padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
+            display: flex; align-items: center; gap: 6px;
+            padding: 5px 10px; border-radius: 999px; font-size: 12px; font-weight: 600;
         }
-        .pulse { width: 6px; height: 6px; border-radius: 50%; }
+        .pulse { width: 7px; height: 7px; border-radius: 50%; }
         .pulse-green { background-color: var(--profit-color); animation: pulse 1.5s infinite; }
         .pulse-red { background-color: var(--loss-color); }
         @keyframes pulse {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+            70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         .btn-control {
-            padding: 5px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;
+            padding: 6px 11px; border-radius: 8px; font-size: 12px; font-weight: 600;
             cursor: pointer; font-family: 'Prompt', sans-serif; border: none; outline: none;
-            display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;
+            display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+            transition: transform 0.12s ease, opacity 0.15s ease;
         }
-        .btn-toggle-ea { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4); }
-        .btn-stop-all { background: #ef4444; color: white; }
+        .btn-control:active { transform: scale(0.98); }
+        .btn-toggle-ea { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.45); }
+        .btn-close-pos { background: rgba(249, 115, 22, 0.18); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.5); }
+        .btn-stop-all { background: #dc2626; color: white; }
+        .btn-remove-acc { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.35); }
         .top-pin-input {
-            background: var(--bg-color); border: 1px solid var(--border-color); color: white;
-            padding: 5px 6px; border-radius: 6px; font-size: 10px; outline: none; width: 60px; text-align: center;
+            background: var(--bg-color); border: 1px solid #334155; color: white;
+            padding: 6px 8px; border-radius: 8px; font-size: 12px; outline: none; width: 76px; text-align: center;
         }
-        .btn-save-pin { background: var(--primary); color: white; padding: 5px 8px; }
+        .btn-save-pin { background: var(--primary); color: white; padding: 6px 11px; }
 
-        /* --- Character Status Bar --- */
         .character-card {
             background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--border-color); border-radius: 12px;
-            padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden;
+            border: 1px solid var(--border-color); border-radius: 14px;
+            padding: 12px 16px; margin-bottom: 14px; display: flex; align-items: center; gap: 14px; position: relative; overflow: hidden;
         }
         .character-avatar {
-            width: 60px; height: 60px; border-radius: 50%; border: 2px solid #fbbf24;
+            width: 58px; height: 58px; border-radius: 50%; border: 2px solid var(--accent-gold);
             background-image: url("{{ url_for('static', filename='characters.jpg') }}");
             background-size: 500% 200%; background-repeat: no-repeat; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.4); background-color: #1e293b;
         }
         .character-info { flex-grow: 1; }
-        .character-name { font-size: 13px; font-weight: 700; color: #fbbf24; display: flex; align-items: center; gap: 6px; }
+        .character-name { font-size: 13px; font-weight: 700; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
         .character-dialog { font-size: 12px; color: var(--text-main); margin-top: 2px; }
 
-        /* --- Going Merry Sea Weather Card --- */
         .merry-sea-card {
-            border-radius: 12px; padding: 14px; margin-bottom: 16px; position: relative; overflow: hidden;
-            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 120px; display: flex; flex-direction: column; justify-content: space-between;
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; position: relative; overflow: hidden;
+            border: 1px solid var(--border-color); transition: background 0.5s ease; min-height: 112px; display: flex; flex-direction: column; justify-content: space-between;
         }
         .merry-sea-card.sunny { background: linear-gradient(to bottom, #0284c7, #0369a1, #0f172a); }
         .merry-sea-card.stormy { background: linear-gradient(to bottom, #1e293b, #0f172a, #450a0a); animation: shakeCard 0.5s infinite; }
@@ -91,14 +115,14 @@
             0% { transform: translate(0, 0); } 25% { transform: translate(-1px, 1px); }
             50% { transform: translate(1px, -1px); } 75% { transform: translate(-1px, -1px); } 100% { transform: translate(0, 0); }
         }
-        .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; }
-        .ship-stage { display: flex; justify-content: center; align-items: center; height: 50px; position: relative; z-index: 2; }
+        .merry-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; z-index: 2; gap: 8px; flex-wrap: wrap; }
+        .ship-stage { display: flex; justify-content: center; align-items: center; height: 46px; position: relative; z-index: 2; }
         .merry-ship-emoji { display: inline-block; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
         .merry-sea-card.sunny .merry-ship-emoji { animation: sailCalm 3s ease-in-out infinite alternate; }
         .merry-sea-card.stormy .merry-ship-emoji { animation: sailStorm 0.4s ease-in-out infinite alternate; }
         @keyframes sailCalm { 0% { transform: translateY(0px) rotate(-5deg); } 100% { transform: translateY(-6px) rotate(5deg); } }
         @keyframes sailStorm { 0% { transform: translateY(4px) rotate(-15deg) scale(0.9); } 100% { transform: translateY(-4px) rotate(15deg) scale(1.1); } }
-        .weather-desc { text-align: center; font-size: 11px; z-index: 2; font-weight: 500; }
+        .weather-desc { text-align: center; font-size: 12px; z-index: 2; font-weight: 500; }
 
         .floating-profit {
             position: absolute; font-weight: 700; font-size: 18px; pointer-events: none;
@@ -110,79 +134,101 @@
             100% { opacity: 0; transform: translateY(-90px) scale(1); }
         }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
         @media (min-width: 768px) { .stats-grid { grid-template-columns: repeat(4, 1fr); } }
-        .stat-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px; }
-        .stat-card h3 { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-bottom: 4px; }
-        .stat-card .value { font-size: 16px; font-weight: 600; }
+        .stat-card {
+            background: linear-gradient(180deg, var(--card-elevated) 0%, var(--card-bg) 100%);
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 14px;
+        }
+        .stat-card h3 { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-bottom: 6px; }
+        .stat-card .value { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-        .card-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
-        .card-header h2 { font-size: 14px; font-weight: 600; }
+        .card-container {
+            background-color: var(--card-bg); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 16px; margin-bottom: 16px;
+        }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+        .card-header h2 { font-size: 15px; font-weight: 600; color: var(--text-main); }
 
-        .range-btns { display: flex; gap: 4px; flex-wrap: wrap; }
-        .range-btn { background: var(--border-color); border: none; color: var(--text-muted); padding: 3px 8px; border-radius: 4px; font-size: 10px; cursor: pointer; font-family: 'Prompt', sans-serif; }
-        .range-btn.active { background: var(--primary); color: white; font-weight: 600; }
+        .filter-toolbar {
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+            background: rgba(11, 15, 25, 0.65); border: 1px solid var(--border-color);
+            padding: 9px 12px; border-radius: 10px; margin-bottom: 12px; font-size: 12px;
+        }
+        .range-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+        .range-btn {
+            background: var(--card-elevated); border: 1px solid #334155; color: #cbd5e1;
+            padding: 4px 11px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: 'Prompt', sans-serif;
+            transition: all 0.15s ease;
+        }
+        .range-btn:hover { border-color: var(--primary); color: #fff; }
+        .range-btn.active { background: var(--primary); border-color: var(--primary); color: white; font-weight: 600; }
 
-        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
-        .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 4px; font-size: 10px; }
+        .date-range-inputs { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-left: auto; color: #cbd5e1; }
+        .date-input, .select-compact {
+            background: var(--bg-color); color: var(--text-main); border: 1px solid #334155;
+            border-radius: 6px; padding: 4px 8px; font-size: 12px; font-family: 'Prompt', sans-serif; outline: none;
+        }
+        .date-input:focus, .select-compact:focus { border-color: var(--primary); }
+
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .day-name { text-align: center; font-weight: 600; color: var(--text-muted); padding: 6px; font-size: 12px; }
         .day-cell {
-            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 6px;
-            min-height: 65px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.2s;
+            background-color: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-color); border-radius: 8px;
+            min-height: 70px; padding: 7px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all 0.15s ease;
         }
         .day-cell:hover { border-color: var(--primary); background-color: rgba(99, 102, 241, 0.08); }
-        .day-cell.selected { border: 2px solid var(--primary); background-color: rgba(99, 102, 241, 0.15); }
+        .day-cell.selected { border: 2px solid var(--primary); background-color: rgba(99, 102, 241, 0.16); }
         .day-cell.empty { background-color: transparent; border: none; cursor: default; }
-        .day-cell.today { border: 1px dashed var(--primary); }
-        .day-number { font-size: 10px; font-weight: 500; color: var(--text-muted); }
-        .day-profit { font-size: 11px; font-weight: 600; text-align: right; }
-        .profit-pos { color: var(--profit-color); }
-        .profit-neg { color: var(--loss-color); }
+        .day-cell.today { border: 1px dashed var(--accent-gold); }
+        .day-number { font-size: 12px; font-weight: 600; color: #e2e8f0; font-variant-numeric: tabular-nums; }
+        .day-profit { font-size: 12px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+        .profit-pos { color: #34d399; }
+        .profit-neg { color: #f87171; }
         .profit-zero { color: var(--text-muted); }
-        .live-tag { font-size: 7px; background: var(--primary); color: white; padding: 1px 3px; border-radius: 3px; align-self: flex-start; }
+        .live-tag { font-size: 9px; background: var(--primary); color: white; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
 
-        .nav-btn { padding: 4px 8px; background: var(--border-color); border: none; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 11px; }
-        .nav-btn:hover { background: var(--primary); }
+        .nav-btn { padding: 5px 11px; background: var(--card-elevated); border: 1px solid #334155; color: white; border-radius: 6px; cursor: pointer; font-family: 'Prompt', sans-serif; font-size: 12px; }
+        .nav-btn:hover { background: var(--primary); border-color: var(--primary); }
 
-        .trade-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
-        .trade-table th, .trade-table td { padding: 6px 8px; border-bottom: 1px solid var(--border-color); }
-        .trade-table th { color: var(--text-muted); font-weight: 500; background-color: rgba(255, 255, 255, 0.01); }
-        .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 11px; color: var(--text-muted); }
-        .reset-filter-btn { background: rgba(239, 68, 68, 0.1); color: var(--loss-color); border: 1px solid rgba(239, 68, 68, 0.3); padding: 2px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; }
+        .trade-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; font-variant-numeric: tabular-nums; }
+        .trade-table th, .trade-table td { padding: 9px 11px; border-bottom: 1px solid var(--border-color); white-space: nowrap; }
+        .trade-table th { color: #cbd5e1; font-weight: 600; background-color: rgba(11, 15, 25, 0.55); font-size: 12px; }
+        .trade-table tbody tr:hover { background-color: rgba(255, 255, 255, 0.02); }
+        .filter-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 12px; color: #cbd5e1; background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); padding: 6px 10px; border-radius: 8px; }
+        .reset-filter-btn { background: rgba(239, 68, 68, 0.15); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); padding: 3px 9px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">
-            <h1>🥇 XM MT5 Dashboard</h1>
+            <h1>🥇 XM MT5 Gold Dashboard</h1>
+            <p>SMC Algorithmic Monitoring &amp; Risk Control</p>
         </div>
         <div class="header-controls">
-            <select id="account-select" class="account-selector" onchange="switchAccount(this.value)">
+            <select id="account-select" class="account-selector" onchange="switchAccount(this.value)" aria-label="เลือกพอร์ตเทรด">
                 <option value="combined">🌐 ภาพรวมทุกพอร์ต</option>
             </select>
-            
-            <!-- ปุ่มลบพอร์ต -->
-            <button onclick="removeSelectedAccount()" class="btn-control" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.4);" title="ลบพอร์ตที่เลือก">🗑️ ลบพอร์ต</button>
 
-            <!-- ไฟสถานะ EA (เขียว/แดง) -->
-            <div id="ea-status-badge" class="status-badge" style="background: rgba(16, 185, 129, 0.1); color: var(--profit-color);">
+            <div id="ea-status-badge" class="status-badge" style="background: rgba(16, 185, 129, 0.12); color: #34d399;">
                 <div id="ea-pulse" class="pulse pulse-green"></div>
                 <span id="ea-status-text">EA: เปิด</span>
             </div>
 
-            <!-- ปุ่มควบคุม EA ฉุกเฉิน -->
             <button onclick="toggleEA()" class="btn-control btn-toggle-ea">🛑 ปิด/เปิด EA</button>
+            <button onclick="closeAllPositionsWithPin()" class="btn-control btn-close-pos" title="ปิด Position ที่เปิดอยู่ทั้งหมด (ยืนยันด้วย PIN)">💥 Close All Position</button>
             <button onclick="emergencyStopAll()" class="btn-control btn-stop-all">🚨 ปิดทั้งหมด</button>
+            <button onclick="removeSelectedAccount()" class="btn-control btn-remove-acc" title="ลบพอร์ตที่เลือก">🗑️ ลบพอร์ต</button>
 
-            <!-- ช่องเปลี่ยน PIN -->
+            <div class="control-divider"></div>
+
             <input type="password" id="old-pin" class="top-pin-input" placeholder="PIN เดิม" maxlength="6" title="PIN เดิม (6 หลัก)">
             <input type="password" id="new-pin" class="top-pin-input" placeholder="PIN ใหม่" maxlength="6" title="PIN ใหม่ (6 หลัก)">
             <button onclick="submitChangePin()" class="btn-control btn-save-pin" title="บันทึก PIN ใหม่">💾 PIN</button>
         </div>
     </header>
 
-    <!-- Character Status Bar -->
     <div class="character-card" id="character-card">
         <div class="character-avatar" id="char-avatar"></div>
         <div class="character-info">
@@ -192,7 +238,6 @@
         <div id="float-origin" style="position: absolute; right: 40px; bottom: 20px;"></div>
     </div>
 
-    <!-- Going Merry Sea Weather Card -->
     <div class="merry-sea-card sunny" id="merry-card">
         <div class="merry-header">
             <span>⛵ เรือโกอิ้งแมรี่ (Going Merry)</span>
@@ -223,25 +268,37 @@
         </div>
     </div>
 
+    <!-- กราฟความเติบโต -->
     <div class="card-container">
         <div class="card-header">
-            <h2>📈 กราฟความเติบโต</h2>
+            <h2>📈 กราฟความเติบโต (Growth Curve)</h2>
+            <span id="chart-period-label" class="num-tabular" style="font-size: 12px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
+        </div>
+        <div class="filter-toolbar">
             <div class="range-btns">
                 <button class="range-btn active" id="btn-range-all" onclick="setChartRange('all')">ทั้งหมด</button>
-                <button class="range-btn" id="btn-range-day" onclick="setChartRange('day')">วัน</button>
-                <button class="range-btn" id="btn-range-week" onclick="setChartRange('week')">สัปดาห์</button>
-                <button class="range-btn" id="btn-range-month" onclick="setChartRange('month')">เดือน</button>
-                <button class="range-btn" id="btn-range-year" onclick="setChartRange('year')">ปี</button>
+                <button class="range-btn" id="btn-range-day" onclick="setChartRange('day')">วันนี้</button>
+                <button class="range-btn" id="btn-range-week" onclick="setChartRange('week')">7 วันล่าสุด</button>
+                <button class="range-btn" id="btn-range-month" onclick="setChartRange('month')">เดือนนี้</button>
+                <button class="range-btn" id="btn-range-year" onclick="setChartRange('year')">ปีนี้</button>
+                <button class="range-btn" id="btn-range-custom" onclick="setChartRange('custom')">กำหนดเอง</button>
+            </div>
+            <div class="date-range-inputs">
+                <span>ตั้งแต่:</span>
+                <input type="date" id="custom-start-date" class="date-input" onchange="applyCustomDateRange()">
+                <span>ถึง:</span>
+                <input type="date" id="custom-end-date" class="date-input" onchange="applyCustomDateRange()">
             </div>
         </div>
-        <div style="position: relative; height: 190px; width: 100%;">
+        <div style="position: relative; height: 225px; width: 100%;">
             <canvas id="growthChart"></canvas>
         </div>
     </div>
 
+    <!-- ปฏิทินผลการเทรดรายวัน -->
     <div class="card-container">
         <div class="card-header">
-            <h2 id="calendar-month-year" style="font-size:13px;">ปฏิทินผลการเทรดรายวัน</h2>
+            <h2 id="calendar-month-year">ปฏิทินผลการเทรดรายวัน</h2>
             <div>
                 <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
                 <button class="nav-btn" onclick="changeMonth(1)" style="margin-left:4px;">&gt;</button>
@@ -261,14 +318,25 @@
     <!-- สรุปกำไร-ขาดทุนรายชั่วโมง -->
     <div class="card-container">
         <div class="card-header">
-            <h2>⏰ สรุปกำไร-ขาดทุนรายชั่วโมง (Hourly P&L)</h2>
-            <span style="font-size: 11px; color: var(--text-muted);">เรียงจากขาดทุนสูงสุดไปกำไรสูงสุด</span>
+            <h2>⏰ สรุปกำไร-ขาดทุนรายชั่วโมง (Server Time vs เวลาไทย GMT+7)</h2>
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <span id="hourly-period-label" class="num-tabular" style="font-size: 12px; color: #cbd5e1;">ช่วงเวลา: ทั้งหมด</span>
+                <label style="font-size: 12px; color: #cbd5e1;">
+                    Server GMT:
+                    <select id="server-gmt-offset" class="select-compact" onchange="renderDashboard()">
+                        <option value="2" selected>GMT+2 (Winter)</option>
+                        <option value="3">GMT+3 (DST / Summer)</option>
+                        <option value="0">GMT+0 (UTC)</option>
+                        <option value="7">GMT+7 (เวลาไทย)</option>
+                    </select>
+                </label>
+            </div>
         </div>
         <div style="overflow-x: auto;">
             <table class="trade-table">
                 <thead>
                     <tr>
-                        <th>ช่วงเวลา</th>
+                        <th>ชั่วโมง Server / เวลาไทย (GMT+7)</th>
                         <th style="text-align: center;">จำนวนไม้</th>
                         <th style="text-align: center;">ชนะ / แพ้</th>
                         <th style="text-align: center;">Win Rate</th>
@@ -277,15 +345,16 @@
                     </tr>
                 </thead>
                 <tbody id="hourly-pnl-tbody">
-                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 12px;">กำลังคำนวณข้อมูลรายชั่วโมง...</td></tr>
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 14px;">กำลังคำนวณข้อมูลรายชั่วโมง...</td></tr>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- ประวัติออเดอร์ -->
     <div class="card-container">
         <div class="card-header">
-            <h2>📜 ประวัติออเดอร์</h2>
+            <h2>📜 ประวัติออเดอร์ (Trade History)</h2>
         </div>
         <div id="filter-status-container" class="filter-info" style="display: none;">
             <span id="filter-text">แสดงผลเฉพาะวันที่: -</span>
@@ -295,7 +364,7 @@
             <table class="trade-table">
                 <thead>
                     <tr>
-                        <th>เวลาปิด</th>
+                        <th>วันและเวลาปิด</th>
                         <th>Ticket</th>
                         <th>คู่เงิน</th>
                         <th>ประเภท</th>
@@ -304,7 +373,7 @@
                     </tr>
                 </thead>
                 <tbody id="recent-trades-tbody">
-                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted);">กำลังโหลดข้อมูล...</td></tr>
+                    <tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 15px;">กำลังโหลดข้อมูล...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -335,6 +404,16 @@
             { name: "โปร์โตกัส ดี. เอส", happy: "ไฟลุกท่วมพอร์ตแล้ว! กำไรเดือดดาลจริง ๆ!", sad: "เปลวเพลิงเริ่มมอดดับ... ต้องเติมเชื้อเพลิงใหม่!", bgPos: "75% 100%" },
             { name: "แชงค์ส ผมแดง", happy: "ทำได้ดีนี่... ให้เกียรติกับชัยชนะครั้งนี้หน่อย", sad: "ตลาดมีความผันผวนสูง... ต้องใจเย็นไว้สหาย", bgPos: "100% 100%" }
         ];
+
+        function formatDateTimeFull(epochSec) {
+            const d = new Date(epochSec * 1000);
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yyyy = d.getFullYear();
+            const hh = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+        }
 
         function fetchData() {
             fetch('/api/data')
@@ -369,13 +448,13 @@
             }
 
             if (isStopped) {
-                badge.style.background = 'rgba(239, 68, 68, 0.1)';
-                badge.style.color = 'var(--loss-color)';
+                badge.style.background = 'rgba(239, 68, 68, 0.14)';
+                badge.style.color = '#f87171';
                 pulse.className = 'pulse pulse-red';
                 text.innerText = 'EA: ปิด';
             } else {
-                badge.style.background = 'rgba(16, 185, 129, 0.1)';
-                badge.style.color = 'var(--profit-color)';
+                badge.style.background = 'rgba(16, 185, 129, 0.14)';
+                badge.style.color = '#34d399';
                 pulse.className = 'pulse pulse-green';
                 text.innerText = 'EA: เปิด';
             }
@@ -404,22 +483,73 @@
 
         function setChartRange(range) {
             currentRange = range;
+            if (range !== 'day') selectedDateFilter = null;
             document.querySelectorAll('.range-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-range-${range}`).classList.add('active');
+            const activeBtn = document.getElementById(`btn-range-${range}`);
+            if (activeBtn) activeBtn.classList.add('active');
             renderDashboard();
+        }
+
+        function applyCustomDateRange() {
+            const startVal = document.getElementById('custom-start-date').value;
+            const endVal = document.getElementById('custom-end-date').value;
+            if (startVal || endVal) {
+                setChartRange('custom');
+            }
+        }
+
+        function filterDealsBySelectedPeriod(deals) {
+            const now = new Date();
+            const startCustom = document.getElementById('custom-start-date')?.value;
+            const endCustom = document.getElementById('custom-end-date')?.value;
+
+            let labelText = "ทั้งหมด";
+
+            const filtered = deals.filter(deal => {
+                const d = new Date(deal.time * 1000);
+                if (currentRange === 'day') {
+                    const targetStr = selectedDateFilter
+                        ? selectedDateFilter.replace(/\./g, '-')
+                        : `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+                    const dealStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+                    labelText = `วันที่ ${targetStr}`;
+                    return dealStr === targetStr;
+                }
+                if (currentRange === 'week') {
+                    labelText = "7 วันล่าสุด";
+                    return d >= new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                }
+                if (currentRange === 'month') {
+                    labelText = `เดือน ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+                    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+                }
+                if (currentRange === 'year') {
+                    labelText = `ปี ${now.getFullYear()}`;
+                    return d.getFullYear() === now.getFullYear();
+                }
+                if (currentRange === 'custom') {
+                    const startObj = startCustom ? new Date(`${startCustom}T00:00:00`) : null;
+                    const endObj = endCustom ? new Date(`${endCustom}T23:59:59`) : null;
+                    labelText = `${startCustom || 'เริ่มต้น'} ถึง ${endCustom || 'ปัจจุบัน'}`;
+                    if (startObj && d < startObj) return false;
+                    if (endObj && d > endObj) return false;
+                    return true;
+                }
+                labelText = "ทั้งหมด";
+                return true;
+            });
+
+            return { filtered, labelText };
         }
 
         function filterByDate(dateKey) {
             if (selectedDateFilter === dateKey) {
                 selectedDateFilter = null;
-                currentRange = 'all';
                 setChartRange('all');
             } else {
                 selectedDateFilter = dateKey;
-                currentRange = 'day';
                 setChartRange('day');
             }
-            renderDashboard();
         }
 
         function resetDateFilter() {
@@ -441,10 +571,16 @@
 
             updateCharacterAndMerry(targetData, floatingVal);
 
-            buildCalendar(targetData.deals || []);
-            buildHourlyBreakdown(targetData.deals || []);
-            buildRecentTrades(targetData.deals || []);
-            buildChart(targetData.deals || [], targetData.balance);
+            const allDeals = targetData.deals || [];
+            const { filtered, labelText } = filterDealsBySelectedPeriod(allDeals);
+
+            document.getElementById('chart-period-label').innerText = `ช่วงเวลา: ${labelText}`;
+            document.getElementById('hourly-period-label').innerText = `ช่วงเวลา: ${labelText}`;
+
+            buildCalendar(allDeals);
+            buildHourlyBreakdown(filtered);
+            buildRecentTrades(allDeals);
+            buildChart(allDeals, filtered, targetData.balance);
         }
 
         function updateCharacterAndMerry(targetData, floatingVal) {
@@ -462,7 +598,7 @@
             let dialogEl = document.getElementById('char-dialog');
             let isProfit = floatingVal >= 0;
             dialogEl.innerText = isProfit ? char.happy : char.sad;
-            dialogEl.style.color = isProfit ? 'var(--profit-color)' : 'var(--loss-color)';
+            dialogEl.style.color = isProfit ? '#34d399' : '#f87171';
 
             let merryCard = document.getElementById('merry-card');
             let merryStatusText = document.getElementById('merry-status-text');
@@ -472,12 +608,12 @@
                 merryCard.className = "merry-sea-card sunny";
                 merryStatusText.innerText = "☀️ ท้องฟ้าแจ่มใส คลื่นลมสงบ";
                 merryWeatherDesc.innerText = `กำไรลอยตัว +$${floatingVal.toFixed(2)} เรือโกอิ้งแมรี่ล่องฉิวรับทรัพย์!`;
-                merryWeatherDesc.style.color = "var(--profit-color)";
+                merryWeatherDesc.style.color = "#34d399";
             } else {
                 merryCard.className = "merry-sea-card stormy";
                 merryStatusText.innerText = "⛈️ พายุเข้า! คลื่นลมรุนแรง";
                 merryWeatherDesc.innerText = `ขาดทุนลอยตัว -$${Math.abs(floatingVal).toFixed(2)} เรือโกอิ้งแมรี่กำลังฝ่ามรสุม!`;
-                merryWeatherDesc.style.color = "var(--loss-color)";
+                merryWeatherDesc.style.color = "#fca5a5";
             }
 
             let deals = targetData.deals || [];
@@ -495,7 +631,7 @@
             let floatEl = document.createElement('div');
             floatEl.className = 'floating-profit';
             floatEl.innerText = (amount >= 0 ? `+$${amount.toFixed(2)} 🍖` : `-$${Math.abs(amount).toFixed(2)} 💢`);
-            floatEl.style.color = amount >= 0 ? 'var(--profit-color)' : 'var(--loss-color)';
+            floatEl.style.color = amount >= 0 ? '#34d399' : '#f87171';
             
             origin.appendChild(floatEl);
             setTimeout(() => { floatEl.remove(); }, 1800);
@@ -518,6 +654,24 @@
             .then(res => res.json())
             .then(data => { alert(data.message); fetchData(); })
             .catch(err => console.error('Error toggling EA:', err));
+        }
+
+        function closeAllPositionsWithPin() {
+            const targetLabel = selectedAccount === 'combined' ? 'ทุกพอร์ต (Combined)' : `พอร์ต ${selectedAccount}`;
+            let pin = prompt(`💥 ยืนยันคำสั่ง Close All Position สำหรับ ${targetLabel}\nกรุณากรอกรหัส PIN 6 หลัก:`);
+            if (pin === null) return;
+            if (pin.length !== 6) { alert("❌ กรุณากรอกรหัส PIN ให้ครบ 6 หลัก!"); return; }
+
+            if (!confirm(`ยืนยันปิด Position ที่เปิดอยู่ทั้งหมดของ ${targetLabel} ทันทีใช่หรือไม่?`)) return;
+
+            fetch(`/api/ea/close_positions/${selectedAccount}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: pin })
+            })
+            .then(res => res.json())
+            .then(data => { alert(data.message); fetchData(); })
+            .catch(err => console.error('Error closing positions:', err));
         }
 
         function emergencyStopAll() {
@@ -593,9 +747,13 @@
             if (!tbody) return;
 
             if (!deals || deals.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 12px;">ยังไม่มีประวัติออเดอร์สำหรับวิเคราะห์รายชั่วโมง</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 14px;">ไม่มีประวัติออเดอร์ในช่วงเวลาที่เลือก</td></tr>`;
                 return;
             }
+
+            const serverGmtSelect = document.getElementById('server-gmt-offset');
+            const serverGmt = serverGmtSelect ? parseInt(serverGmtSelect.value, 10) : 2;
+            const thaiGmt = 7;
 
             const hourlyStats = {};
             for (let h = 0; h < 24; h++) {
@@ -604,29 +762,36 @@
 
             deals.forEach(deal => {
                 if (!deal.time) return;
-                const d = new Date(deal.time * 1000);
-                const hour = d.getHours();
+                const utcDate = new Date(deal.time * 1000);
+                const serverDate = new Date(utcDate.getTime() + serverGmt * 3600 * 1000);
+                const serverHour = serverDate.getUTCHours();
                 const profit = parseFloat(deal.profit || 0);
 
-                hourlyStats[hour].trades += 1;
-                hourlyStats[hour].pnl += profit;
-                if (profit > 0) hourlyStats[hour].wins += 1;
-                else if (profit < 0) hourlyStats[hour].losses += 1;
+                hourlyStats[serverHour].trades += 1;
+                hourlyStats[serverHour].pnl += profit;
+                if (profit > 0) hourlyStats[serverHour].wins += 1;
+                else if (profit < 0) hourlyStats[serverHour].losses += 1;
             });
 
             const activeHours = Object.keys(hourlyStats)
-                .map(h => ({ hour: parseInt(h), ...hourlyStats[h] }))
+                .map(h => ({ hour: parseInt(h, 10), ...hourlyStats[h] }))
                 .filter(item => item.trades > 0)
                 .sort((a, b) => a.pnl - b.pnl);
 
             if (activeHours.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 12px;">ไม่มีข้อมูลการเทรดที่เข้าเงื่อนไข</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--text-muted); padding: 14px;">ไม่มีข้อมูลการเทรดที่เข้าเงื่อนไข</td></tr>`;
                 return;
             }
 
             let html = '';
             activeHours.forEach(item => {
-                const hrLabel = `${String(item.hour).padStart(2, '0')}:00 - ${String(item.hour).padStart(2, '0')}:59`;
+                const srvStart = String(item.hour).padStart(2, '0');
+                const srvLabel = `Server ${srvStart}:00 - ${srvStart}:59`;
+
+                const thaiHour = (((item.hour - serverGmt + thaiGmt) % 24) + 24) % 24;
+                const thStart = String(thaiHour).padStart(2, '0');
+                const thLabel = `🇹🇭 ${thStart}:00 - ${thStart}:59`;
+
                 const winRate = item.trades > 0 ? ((item.wins / item.trades) * 100).toFixed(1) : '0.0';
                 const pnlClass = item.pnl > 0 ? 'profit-pos' : (item.pnl < 0 ? 'profit-neg' : 'profit-zero');
                 const pnlFormatted = `${item.pnl >= 0 ? '+' : ''}$${item.pnl.toFixed(2)}`;
@@ -634,19 +799,22 @@
                 let statusBadge = `<span style="color: var(--text-muted);">ทรงตัว</span>`;
                 let rowStyle = '';
                 if (item.pnl < 0) {
-                    statusBadge = `<span style="background: rgba(239, 68, 68, 0.15); color: #ef4444; padding: 2px 6px; border-radius: 4px; font-weight: 600;">⚠️ ขาดทุนสะสม</span>`;
-                    rowStyle = `style="background: rgba(239, 68, 68, 0.04);"`;
+                    statusBadge = `<span style="background: rgba(239, 68, 68, 0.16); color: #f87171; padding: 3px 8px; border-radius: 5px; font-weight: 600;">⚠️ ขาดทุนสะสม</span>`;
+                    rowStyle = `style="background: rgba(239, 68, 68, 0.05);"`;
                 } else if (item.pnl > 0) {
-                    statusBadge = `<span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 2px 6px; border-radius: 4px; font-weight: 600;">✅ ทำกำไร</span>`;
+                    statusBadge = `<span style="background: rgba(16, 185, 129, 0.16); color: #34d399; padding: 3px 8px; border-radius: 5px; font-weight: 600;">✅ ทำกำไร</span>`;
                 }
 
                 html += `
                     <tr ${rowStyle}>
-                        <td><b>${hrLabel}</b></td>
+                        <td>
+                            <div style="font-weight: 600;">${srvLabel}</div>
+                            <div style="font-size: 11px; color: #93c5fd;">เวลาไทย: ${thLabel}</div>
+                        </td>
                         <td style="text-align: center;">${item.trades}</td>
                         <td style="text-align: center;">${item.wins}W / ${item.losses}L</td>
                         <td style="text-align: center;">${winRate}%</td>
-                        <td class="${pnlClass}" style="font-weight: 600; text-align: right;">${pnlFormatted}</td>
+                        <td class="${pnlClass}" style="font-weight: 700; text-align: right;">${pnlFormatted}</td>
                         <td style="text-align: center;">${statusBadge}</td>
                     </tr>
                 `;
@@ -676,73 +844,56 @@
             }
 
             let sortedDeals = [...filteredDeals].sort((a, b) => b.time - a.time);
-            let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 10);
+            let displayDeals = selectedDateFilter ? sortedDeals : sortedDeals.slice(0, 15);
 
             let html = '';
             displayDeals.forEach(deal => {
-                let dateObj = new Date(deal.time * 1000);
-                let timeStr = `${String(dateObj.getDate()).padStart(2,'0')}/${String(dateObj.getMonth()+1).padStart(2,'0')} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
+                let timeStr = formatDateTimeFull(deal.time);
                 let profitClass = deal.profit >= 0 ? 'profit-pos' : 'profit-neg';
                 let profitFormatted = `${deal.profit >= 0 ? '+' : ''}$${deal.profit.toFixed(2)}`;
-                let typeColor = deal.type === 'BUY' ? 'color: var(--profit-color);' : 'color: var(--loss-color);';
+                let typeColor = deal.type === 'BUY' ? 'color: #34d399;' : 'color: #f87171;';
 
                 html += `
                     <tr>
-                        <td>${timeStr}</td>
+                        <td><b>${timeStr}</b></td>
                         <td>${deal.ticket}</td>
                         <td><b>${deal.symbol}</b></td>
                         <td><span style="${typeColor} font-weight: 600;">${deal.type}</span></td>
                         <td>${deal.volume}</td>
-                        <td class="${profitClass}" style="font-weight: 600; text-align: right;">${profitFormatted}</td>
+                        <td class="${profitClass}" style="font-weight: 700; text-align: right;">${profitFormatted}</td>
                     </tr>
                 `;
             });
             tbody.innerHTML = html;
         }
 
-        function buildChart(deals, currentBalance) {
+        function buildChart(allDeals, filteredDeals, currentBalance) {
             const ctx = document.getElementById('growthChart').getContext('2d');
-            let sortedDeals = [...deals].sort((a, b) => a.time - b.time);
+            let sortedAll = [...allDeals].sort((a, b) => a.time - b.time);
+            let sortedFiltered = [...filteredDeals].sort((a, b) => a.time - b.time);
 
-            let now = new Date();
-            let filteredDeals = sortedDeals.filter(deal => {
-                let d = new Date(deal.time * 1000);
-                if (currentRange === 'day') {
-                    let targetDateStr = selectedDateFilter ? selectedDateFilter.replace(/\./g, '-') : now.toISOString().split('T')[0];
-                    return d.toISOString().split('T')[0] === targetDateStr;
-                } else if (currentRange === 'week') {
-                    let oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-                    return d >= oneWeekAgo;
-                } else if (currentRange === 'month') {
-                    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
-                } else if (currentRange === 'year') {
-                    return d.getFullYear() === now.getFullYear();
-                }
-                return true; 
-            });
-
-            let totalProfitAll = sortedDeals.reduce((sum, d) => sum + d.profit, 0);
+            let totalProfitAll = sortedAll.reduce((sum, d) => sum + d.profit, 0);
             let runningBalance = currentBalance - totalProfitAll;
-            
-            for (let deal of sortedDeals) {
-                if (filteredDeals.length > 0 && deal.time < filteredDeals[0].time) {
-                    runningBalance += deal.profit;
+
+            if (sortedFiltered.length > 0) {
+                for (let deal of sortedAll) {
+                    if (deal.time < sortedFiltered[0].time) {
+                        runningBalance += deal.profit;
+                    }
                 }
             }
 
-            let labels = ['เริ่มต้น'];
+            let labels = [`เริ่ม (${sortedFiltered.length > 0 ? formatDateTimeFull(sortedFiltered[0].time) : 'เริ่มต้น'})`];
             let balanceData = [runningBalance];
 
-            filteredDeals.forEach(deal => {
+            sortedFiltered.forEach(deal => {
                 runningBalance += deal.profit;
-                let dateObj = new Date(deal.time * 1000);
-                let dateStr = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()].substring(0,3)} ${String(dateObj.getHours()).padStart(2,'0')}:${String(dateObj.getMinutes()).padStart(2,'0')}`;
-                labels.push(dateStr);
+                labels.push(formatDateTimeFull(deal.time));
                 balanceData.push(runningBalance);
             });
 
-            if (filteredDeals.length === 0) {
-                labels.push('ปัจจุบัน');
+            if (sortedFiltered.length === 0) {
+                labels.push(`ปัจจุบัน (${formatDateTimeFull(Math.floor(Date.now()/1000))})`);
                 balanceData.push(currentBalance);
             }
 
@@ -759,20 +910,20 @@
                             label: 'Balance ($)',
                             data: balanceData,
                             borderColor: '#6366f1',
-                            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                            backgroundColor: 'rgba(99, 102, 241, 0.14)',
                             borderWidth: 2,
                             fill: true,
                             tension: 0.2,
-                            pointRadius: 2,
-                            pointBackgroundColor: '#6366f1'
+                            pointRadius: 2.5,
+                            pointBackgroundColor: '#818cf8'
                         }]
                     },
                     options: {
                         responsive: true, maintainAspectRatio: false, animation: false,
                         plugins: { legend: { display: false } },
                         scales: {
-                            x: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 9 } } },
-                            y: { grid: { color: 'rgba(255, 255, 255, 0.04)' }, ticks: { color: '#94a3b8', font: { family: 'Prompt', size: 9 } } }
+                            x: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 11 }, maxRotation: 25, autoSkip: true, maxTicksLimit: 10 } },
+                            y: { grid: { color: 'rgba(255, 255, 255, 0.05)' }, ticks: { color: '#cbd5e1', font: { family: 'Prompt', size: 11 } } }
                         }
                     }
                 });
@@ -784,7 +935,7 @@
             const headers = grid.innerHTML.substring(0, grid.innerHTML.indexOf('</div></div>') + 12);
             let html = headers;
 
-            document.getElementById('calendar-month-year').innerText = `ปฏิทิน (${monthNames[currentMonth]} ${currentYear + 543})`;
+            document.getElementById('calendar-month-year').innerText = `ปฏิทินผลการเทรดรายวัน (${monthNames[currentMonth]} ${currentYear + 543})`;
 
             let dailyProfits = {};
             let monthlyTotal = 0;
