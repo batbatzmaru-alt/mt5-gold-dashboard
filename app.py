@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # --- ตัวแปรตั้งค่าความปลอดภัยและความจำข้อมูลระบบ ---
 system_config = {
-    "pin": "000013"  # รหัส PIN เริ่มต้น 6 หลัก
+    "pin": "000013"  # รหัส PIN เริ่มต้น 6 หลัก (สามารถเปลี่ยนผ่านหน้าเว็บได้)
 }
 
 ea_control_states = {
@@ -68,7 +68,7 @@ def get_data():
     response_data["ea_control"] = ea_control_states
     return jsonify(response_data)
 
-# 4. API สลับสถานะ EA แยกตามพอร์ต (แก้ไขให้ปลดล็อก emergency_stop_all อัตโนมัติ)
+# 4. API สลับสถานะ EA แยกตามพอร์ต (เปิด/ปิด) พร้อมตรวจสอบ PIN
 @app.route('/api/ea/toggle/<account_id>', methods=['POST'])
 def toggle_ea(account_id):
     data = request.get_json() or {}
@@ -77,7 +77,6 @@ def toggle_ea(account_id):
     if pin != system_config["pin"]:
         return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
 
-    # หากเคยถูกล็อกด้วยปุ่ม "ปิดทั้งหมด" ให้ปลดล็อกออกเมื่อมีการกดใช้งานรายพอร์ต
     if ea_control_states["emergency_stop_all"]:
         ea_control_states["emergency_stop_all"] = False
 
@@ -129,22 +128,7 @@ def change_pin():
     system_config["pin"] = new_pin
     return jsonify({"status": "success", "message": "✅ เปลี่ยนรหัส PIN สำเร็จแล้ว!"})
 
-# 7. API ให้ EA ใน MT5 วิ่งเข้ามาเช็คสถานะทุกรอบ
-@app.route('/api/ea/status/<account_id>', methods=['GET'])
-def get_ea_status(account_id):
-    if ea_control_states["emergency_stop_all"]:
-        return jsonify({"state": "STOPPED"})
-    
-    if account_id not in ea_control_states["accounts"]:
-        ea_control_states["accounts"][account_id] = "RUNNING"
-        
-    return jsonify({"state": ea_control_states["accounts"][account_id]})
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
-
-# API สำหรับลบพอร์ตออกจากระบบ (เคลียร์ออกจาก memory)
+# 7. API สำหรับลบพอร์ตออกจากระบบ Dashboard
 @app.route('/api/ea/remove/<account_id>', methods=['POST'])
 def remove_account(account_id):
     data = request.get_json() or {}
@@ -153,15 +137,12 @@ def remove_account(account_id):
     if pin != system_config["pin"]:
         return jsonify({"status": "error", "message": "❌ รหัส PIN ไม่ถูกต้อง!"}), 403
 
-    # ลบพอร์ตออกจากข้อมูลพอร์ต
     if account_id in global_data["accounts"]:
         del global_data["accounts"][account_id]
         
-    # ลบพอร์ตออกจากสถานะควบคุม EA
     if account_id in ea_control_states["accounts"]:
         del ea_control_states["accounts"][account_id]
         
-    # คำนวณภาพรวม (Combined) ใหม่ทันที
     total_balance = sum(acc.get("balance", 0) for acc in global_data["accounts"].values())
     total_equity = sum(acc.get("equity", 0) for acc in global_data["accounts"].values())
     total_floating = sum(acc.get("floating_profit", 0) for acc in global_data["accounts"].values())
@@ -180,3 +161,17 @@ def remove_account(account_id):
     }
     
     return jsonify({"status": "success", "message": f"🗑️ ลบพอร์ต {account_id} ออกจากระบบเรียบร้อยแล้ว"})
+
+# 8. API ให้ EA ใน MT5 วิ่งเข้ามาเช็คสถานะทุกรอบ
+@app.route('/api/ea/status/<account_id>', methods=['GET'])
+def get_ea_status(account_id):
+    if ea_control_states["emergency_stop_all"]:
+        return jsonify({"state": "STOPPED"})
+    
+    if account_id not in ea_control_states["accounts"]:
+        ea_control_states["accounts"][account_id] = "RUNNING"
+        
+    return jsonify({"state": ea_control_states["accounts"][account_id]})
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
